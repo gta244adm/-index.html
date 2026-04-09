@@ -403,6 +403,50 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
       features: { dpi: false, button: true, touch: true, sens: true, free: true, save: true }
     };
 
+    const learningKey = 'ff-sens-ai-learning';
+    const defaultLearning = {
+      global: { dpi: 0, button: 0, touch: 0, sens: 0 },
+      byStyle: {
+        capa: { dpi: 0, button: 0, touch: 0, sens: 0 },
+        equilibrado: { dpi: 0, button: 0, touch: 0, sens: 0 },
+        controle: { dpi: 0, button: 0, touch: 0, sens: 0 }
+      },
+      byTier: {
+        alto: { dpi: 0, button: 0, touch: 0, sens: 0 },
+        médio: { dpi: 0, button: 0, touch: 0, sens: 0 },
+        baixo: { dpi: 0, button: 0, touch: 0, sens: 0 }
+      },
+      samples: 0
+    };
+
+    function loadLearning() {
+      try {
+        const raw = localStorage.getItem(learningKey);
+        if (!raw) return structuredClone(defaultLearning);
+        const parsed = JSON.parse(raw);
+        return {
+          global: { ...defaultLearning.global, ...(parsed.global || {}) },
+          byStyle: {
+            capa: { ...defaultLearning.byStyle.capa, ...(parsed.byStyle?.capa || {}) },
+            equilibrado: { ...defaultLearning.byStyle.equilibrado, ...(parsed.byStyle?.equilibrado || {}) },
+            controle: { ...defaultLearning.byStyle.controle, ...(parsed.byStyle?.controle || {}) }
+          },
+          byTier: {
+            alto: { ...defaultLearning.byTier.alto, ...(parsed.byTier?.alto || {}) },
+            médio: { ...defaultLearning.byTier.médio, ...(parsed.byTier?.médio || {}) },
+            baixo: { ...defaultLearning.byTier.baixo, ...(parsed.byTier?.baixo || {}) }
+          },
+          samples: Number(parsed.samples || 0)
+        };
+      } catch {
+        return structuredClone(defaultLearning);
+      }
+    }
+
+    let learning = loadLearning();
+    let lastAuto = null;
+
+
     const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
     const round = (v) => Math.round(v);
 
@@ -471,35 +515,134 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
       });
     }
 
+    function getLearningBias(profile, style) {
+      const g = learning.global;
+      const s = learning.byStyle[style] || defaultLearning.byStyle[style];
+      const t = learning.byTier[profile.tier] || defaultLearning.byTier[profile.tier];
+      return {
+        dpi: g.dpi + s.dpi + t.dpi,
+        button: g.button + s.button + t.button,
+        touch: g.touch + s.touch + t.touch,
+        sens: g.sens + s.sens + t.sens
+      };
+    }
+
+    function saveLearning() {
+      try {
+        localStorage.setItem(learningKey, JSON.stringify(learning));
+      } catch {}
+    }
+
+    function nudgeLearning(profile, style, target, current) {
+      const diffDpi = (current.dpi - target.dpiTarget) / 10;
+      const diffButton = current.button - target.buttonTarget;
+      const diffTouch = current.touch - target.touchTarget;
+
+      const clampBias = (v) => clamp(v, -12, 12);
+      const g = learning.global;
+      const s = learning.byStyle[style] || learning.byStyle.capa;
+      const t = learning.byTier[profile.tier] || learning.byTier.médio;
+
+      // Aprendizado suave: ajusta uma fração do erro para a próxima rodada
+      const learnRate = 0.18;
+      g.dpi = clampBias(g.dpi + diffDpi * learnRate * 0.5);
+      g.button = clampBias(g.button + diffButton * learnRate * 0.45);
+      g.touch = clampBias(g.touch + diffTouch * learnRate * 0.45);
+      g.sens = clampBias(g.sens + ((Math.abs(diffButton) + Math.abs(diffTouch)) / 2) * learnRate * 0.15);
+
+      s.dpi = clampBias(s.dpi + diffDpi * learnRate * 0.35);
+      s.button = clampBias(s.button + diffButton * learnRate * 0.5);
+      s.touch = clampBias(s.touch + diffTouch * learnRate * 0.5);
+      s.sens = clampBias(s.sens + ((Math.abs(diffButton) + Math.abs(diffTouch)) / 2) * learnRate * 0.2);
+
+      t.dpi = clampBias(t.dpi + diffDpi * learnRate * 0.3);
+      t.button = clampBias(t.button + diffButton * learnRate * 0.35);
+      t.touch = clampBias(t.touch + diffTouch * learnRate * 0.35);
+      t.sens = clampBias(t.sens + ((Math.abs(diffButton) + Math.abs(diffTouch)) / 2) * learnRate * 0.12);
+
+      learning.samples = Math.min(9999, learning.samples + 1);
+      saveLearning();
+    }
+
     function smartTune() {
       const profile = profileFromDevice(device.value);
-      const styleFactor = state.style === 'capa' ? 1.10 : state.style === 'equilibrado' ? 1.0 : 0.92;
-      const styleDpiBias = state.style === 'capa' ? 18 : state.style === 'equilibrado' ? 6 : -8;
-      const styleButtonBias = state.style === 'capa' ? -4 : state.style === 'equilibrado' ? 0 : 7;
-      const styleTouchBias = state.style === 'capa' ? -6 : state.style === 'equilibrado' ? 0 : 8;
-      const tierBiasDpi = profile.tier === 'alto' ? 18 : profile.tier === 'médio' ? 0 : -14;
-      const tierBiasButton = profile.tier === 'alto' ? -1 : profile.tier === 'médio' ? 0 : 3;
-      const tierBiasTouch = profile.tier === 'alto' ? -2 : profile.tier === 'médio' ? 0 : 4;
-      const dpiTarget = clamp(240 * styleFactor + styleDpiBias + tierBiasDpi, 140, 540);
-      const buttonTarget = clamp(50 + styleButtonBias + tierBiasButton, 22, 72);
-      const touchTarget = clamp(50 + styleTouchBias + tierBiasTouch, 10, 90);
-      if (state.auto && state.features.dpi) dpi.value = round(dpiTarget / 10) * 10;
+      const bias = getLearningBias(profile, state.style);
+
+      const basePresets = {
+        capa: { geral: 180, red: 170, two: 155, four: 140, awm: 125 },
+        equilibrado: { geral: 170, red: 160, two: 145, four: 130, awm: 115 },
+        controle: { geral: 150, red: 140, two: 130, four: 120, awm: 105 }
+      };
+
+      const preset = basePresets[state.style];
+      const devicePower = profile.tier === 'alto' ? 1.1 : profile.tier === 'médio' ? 1.0 : 0.9;
+      const touchInfluence = (Number(touch.value) - 50) / 100;
+      const buttonInfluence = (Number(button.value) - 50) / 100;
+
+      const geral = clamp(preset.geral * devicePower - (buttonInfluence * 20) - (touchInfluence * 10) + bias.sens, 120, 200);
+      const red = clamp(preset.red * devicePower - (buttonInfluence * 18) - (touchInfluence * 8) + bias.sens, 110, 200);
+      const two = clamp(preset.two * devicePower - (buttonInfluence * 15) - (touchInfluence * 7) + bias.sens, 100, 200);
+      const four = clamp(preset.four * devicePower - (buttonInfluence * 12) - (touchInfluence * 6) + bias.sens, 90, 190);
+      const awm = clamp(preset.awm * devicePower - (buttonInfluence * 10) - (touchInfluence * 5) + bias.sens, 80, 180);
+
+      let dpiTarget = 300 + bias.dpi;
+      if (profile.tier === 'baixo') dpiTarget = 240 + bias.dpi;
+      if (profile.tier === 'alto') dpiTarget = 420 + bias.dpi;
+      dpiTarget += state.style === 'capa' ? 20 : state.style === 'controle' ? -20 : 0;
+
+      let buttonTarget = state.style === 'capa' ? 45 : state.style === 'controle' ? 60 : 52;
+      let touchTarget = state.style === 'capa' ? 40 : state.style === 'controle' ? 65 : 50;
+      buttonTarget += bias.button;
+      touchTarget += bias.touch;
+
+      if (state.auto && state.features.dpi) dpi.value = round(dpiTarget);
       if (state.auto && state.features.button) button.value = round(buttonTarget);
       if (state.auto && state.features.touch) touch.value = round(touchTarget);
-      return { profile, dpiTarget: round(dpiTarget), buttonTarget: round(buttonTarget), touchTarget: round(touchTarget) };
+
+      return {
+        profile,
+        dpiTarget,
+        buttonTarget,
+        touchTarget,
+        sens: {
+          geral: Math.round(geral),
+          red: Math.round(red),
+          two: Math.round(two),
+          four: Math.round(four),
+          awm: Math.round(awm)
+        }
+      };
+    };
     }
 
     function buildConfig() {
-      const profile = profileFromDevice(device.value);
-      const d = Number(dpi.value);
-      const b = Number(button.value);
-      const t = Number(touch.value);
-      const styleBoost = state.style === 'capa' ? 1.08 : state.style === 'equilibrado' ? 1.0 : 0.93;
-      const dpiFactor = state.auto && state.features.dpi ? clamp((d - 180) / 360, 0, 1) : 0;
-      const buttonFactor = state.auto && state.features.button ? (b - 50) / 50 : 0;
-      const touchFactor = state.auto && state.features.touch ? (t - 50) / 50 : 0;
-      const prof = profile.base;
-      const base = { geral: 174, red: 158, two: 142, four: 130, awm: 116, free: 18 };
+      const smart = smartTune();
+      const s = smart.sens;
+
+      const free = clamp(
+        (state.style === 'capa' ? 20 : state.style === 'controle' ? 14 : 17),
+        10,
+        30
+      );
+
+      const score = clamp(
+        85 + (state.style === 'capa' ? 10 : state.style === 'controle' ? 5 : 8),
+        0,
+        100
+      );
+
+      return {
+        profile: smart.profile,
+        score,
+        geral: s.geral,
+        red: s.red,
+        two: s.two,
+        four: s.four,
+        awm: s.awm,
+        free,
+        explanation: `IA gerou uma sensibilidade otimizada real baseada no seu estilo (${state.style}) e desempenho do aparelho.`
+      };
+    };
       const geral = clamp(base.geral * styleBoost * prof + dpiFactor * 30 - buttonFactor * 13 - touchFactor * 7, 100, 200);
       const red = clamp(base.red * styleBoost * prof + dpiFactor * 25 - buttonFactor * 11 - touchFactor * 6, 90, 200);
       const two = clamp(base.two * styleBoost * prof + dpiFactor * 20 - buttonFactor * 10 - touchFactor * 5, 80, 200);
