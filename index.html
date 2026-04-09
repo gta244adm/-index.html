@@ -9,13 +9,12 @@
       --bg0:#040713;
       --bg1:#09101f;
       --bg2:#0d1730;
-      --card:rgba(13,19,36,.78);
+      --card:rgba(13,19,36,.80);
       --card-strong:rgba(10,15,28,.94);
       --line:rgba(255,255,255,.08);
       --text:#eef4ff;
       --muted:#9fb0d0;
       --green:#31f0a0;
-      --green2:#17c47b;
       --cyan:#64d8ff;
       --gold:#f8d36a;
       --shadow:0 24px 80px rgba(0,0,0,.42);
@@ -29,8 +28,8 @@
       color:var(--text);
       font-family:Inter,Segoe UI,Arial,sans-serif;
       background:
-        radial-gradient(circle at 12% 8%, rgba(49,240,160,.18), transparent 20%),
-        radial-gradient(circle at 88% 10%, rgba(100,216,255,.15), transparent 20%),
+        radial-gradient(circle at 12% 8%, rgba(49,240,160,.16), transparent 20%),
+        radial-gradient(circle at 88% 10%, rgba(100,216,255,.14), transparent 20%),
         radial-gradient(circle at 50% 100%, rgba(248,211,106,.10), transparent 24%),
         linear-gradient(160deg,var(--bg0),var(--bg1) 40%,var(--bg2));
       overflow-x:hidden;
@@ -67,7 +66,12 @@
     }
     .eyebrow{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--green)}
     h1{margin:10px 0 10px;font-size:clamp(30px,4.7vw,58px);line-height:1.02}
-    .sub{margin:0;max-width:1000px;color:var(--muted);line-height:1.7;font-size:15px}.grid{display:grid;grid-template-columns:1.03fr .97fr;gap:18px;align-items:start}
+    .sub{margin:0;max-width:1000px;color:var(--muted);line-height:1.7;font-size:15px}
+    .top-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .pill{padding:9px 12px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);font-size:12px;color:#dce9ff}
+    .pill.green{background:rgba(49,240,160,.12);border-color:rgba(49,240,160,.18);color:#dfffee}
+    .pill.gold{background:rgba(248,211,106,.11);border-color:rgba(248,211,106,.18);color:#fff0bf}
+    .pill.cyan{background:rgba(100,216,255,.11);border-color:rgba(100,216,255,.18);color:#dbf8ff}.grid{display:grid;grid-template-columns:1.03fr .97fr;gap:18px;align-items:start}
 .card{
   border:1px solid var(--line);
   background:var(--card);
@@ -87,10 +91,7 @@
 }
 .section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;position:relative;z-index:1}
 .section-title h2{margin:0;font-size:18px;letter-spacing:.01em}
-.badge{
-  font-size:12px;padding:7px 10px;border-radius:999px;
-  background:rgba(49,240,160,.12);color:#dcfff0;border:1px solid rgba(49,240,160,.2)
-}
+.badge{font-size:12px;padding:7px 10px;border-radius:999px;background:rgba(49,240,160,.12);color:#dcfff0;border:1px solid rgba(49,240,160,.2)}
 .field{margin-bottom:14px;position:relative;z-index:1}
 label{display:block;font-size:13px;color:#bfd0f2;margin-bottom:7px}
 input,button,textarea{
@@ -111,8 +112,8 @@ button{cursor:pointer;font-weight:800;padding:13px 16px}
 .btn-tertiary{background:rgba(49,240,160,.08);border:1px solid rgba(49,240,160,.16)}
 .btn-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .btn-row-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.btn-primary:hover,.btn-secondary:hover,.btn-tertiary:hover,.toggle:hover,.mini:hover,.stat:hover{transform:translateY(-1px)}
-.btn-primary:active,.btn-secondary:active,.btn-tertiary:active,.toggle:active,.mini:active{transform:translateY(0)}
+.btn-primary:hover,.btn-secondary:hover,.btn-tertiary:hover,.toggle:hover,.mini:hover,.feature:hover,.stat:hover{transform:translateY(-1px)}
+.btn-primary:active,.btn-secondary:active,.btn-tertiary:active,.toggle:active,.mini:active,.feature:active{transform:translateY(0)}
 
 .toggle-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .toggle{
@@ -120,7 +121,6 @@ button{cursor:pointer;font-weight:800;padding:13px 16px}
   background:rgba(255,255,255,.05);text-align:center;cursor:pointer;font-weight:800;color:#edf4ff;user-select:none;transition:.18s ease
 }
 .toggle.active{background:rgba(49,240,160,.16);border-color:rgba(49,240,160,.35);color:#e6fff3;box-shadow:0 0 0 1px rgba(49,240,160,.03) inset}
-.toggle.small{padding:10px 12px;font-size:12px}
 .range-box{padding:14px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)}
 .range-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
 .range-top span{font-size:13px;color:var(--muted)}
@@ -136,86 +136,75 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
 .mini span{font-size:12px;color:var(--muted);line-height:1.4}
 .mini.active{background:rgba(49,240,160,.14);border-color:rgba(49,240,160,.34)}
 
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.feature{padding:12px;border-radius:16px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between;gap:12px;transition:.18s ease}
+.feature strong{display:block;font-size:13px}
+.feature span{font-size:12px;color:var(--muted)}
+.feature.disabled{opacity:.6}
+.switch{width:54px;height:30px;border-radius:999px;background:rgba(255,255,255,.12);position:relative;flex:0 0 auto;border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:.18s ease}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.18s ease;box-shadow:0 3px 10px rgba(0,0,0,.3)}
+.switch.on{background:rgba(49,240,160,.22);border-color:rgba(49,240,160,.24)}
+.switch.on::after{left:28px;background:#d9ffef}
+
 .panel-grid{display:grid;grid-template-columns:1fr;gap:12px;position:relative;z-index:1}
-.big-score{
-  display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;
-  padding:16px;border-radius:20px;background:linear-gradient(135deg,rgba(49,240,160,.14),rgba(100,216,255,.08));
-  border:1px solid rgba(255,255,255,.08)
-}
+.big-score{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:16px;border-radius:20px;background:linear-gradient(135deg,rgba(49,240,160,.14),rgba(100,216,255,.08));border:1px solid rgba(255,255,255,.08)}
 .score-number{font-size:52px;font-weight:900;line-height:1;color:#e2fff0;animation:pulse 2.5s ease-in-out infinite}
 .score-text{font-size:13px;color:#d7e6ff;line-height:1.7}
-
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.stat{padding:14px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);transition:.18s ease}
-.stat .k{font-size:12px;color:var(--muted);margin-bottom:6px}
-.stat .v{font-size:28px;font-weight:900;color:#e8fff3}
-
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);font-size:12px;color:#dce9ff}
-.output{
-  margin-top:12px;
-  background:var(--card-strong);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:18px;
-  padding:14px;
-  white-space:pre-wrap;
-  line-height:1.65;
-  color:#d4e4ff;
-  overflow:auto;
-  min-height:220px;
-}
-.hint{font-size:12px;color:var(--muted);line-height:1.55}
 .mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .mini-stat{padding:12px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07)}
 .mini-stat .k{font-size:11px;color:var(--muted);margin-bottom:6px}
 .mini-stat .v{font-size:20px;font-weight:900;color:#edfdf3}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{padding:14px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);transition:.18s ease}
+.stat .k{font-size:12px;color:var(--muted);margin-bottom:6px}
+.stat .v{font-size:28px;font-weight:900;color:#e8fff3}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);font-size:12px;color:#dce9ff}
+.output{margin-top:12px;background:var(--card-strong);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:14px;white-space:pre-wrap;line-height:1.65;color:#d4e4ff;overflow:auto;min-height:220px}
+.hint{font-size:12px;color:var(--muted);line-height:1.55}
 .glow-line{height:1px;background:linear-gradient(90deg, transparent, rgba(49,240,160,.5), transparent);margin:16px 0}
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.pill{padding:9px 12px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);font-size:12px;color:#dce9ff}
-.pill.green{background:rgba(49,240,160,.12);border-color:rgba(49,240,160,.18);color:#dfffee}
-.pill.gold{background:rgba(248,211,106,.11);border-color:rgba(248,211,106,.18);color:#fff0bf}
-.pill.cyan{background:rgba(100,216,255,.11);border-color:rgba(100,216,255,.18);color:#dbf8ff}
 .autobox{padding:14px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)}
 .autobox .top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
 .autobox .top strong{font-size:14px}
 .progress{height:10px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;border:1px solid rgba(255,255,255,.05)}
 .progress > div{height:100%;width:50%;border-radius:inherit;background:linear-gradient(90deg,var(--green),var(--cyan));transition:width .35s ease}
 .footer-note{margin-top:12px;font-size:12px;color:var(--muted);line-height:1.6}
-.toast{
-  position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(16px);
-  background:rgba(7,12,22,.95);border:1px solid rgba(255,255,255,.1);color:#eaf6ff;
-  padding:12px 14px;border-radius:999px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.22s ease;z-index:10;
-}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(16px);background:rgba(7,12,22,.95);border:1px solid rgba(255,255,255,.1);color:#eaf6ff;padding:12px 14px;border-radius:999px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.22s ease;z-index:10}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.feature{
-  padding:12px;border-radius:16px;border:1px solid rgba(255,255,255,.08);
-  background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between;gap:12px
-}
-.feature strong{font-size:13px}
-.feature span{font-size:12px;color:var(--muted)}
-.switch{
-  width:54px;height:30px;border-radius:999px;background:rgba(255,255,255,.12);position:relative;flex:0 0 auto;
-  border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:.18s ease
-}
-.switch::after{
-  content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.18s ease;box-shadow:0 3px 10px rgba(0,0,0,.3)
-}
-.switch.on{background:rgba(49,240,160,.22);border-color:rgba(49,240,160,.24)}
-.switch.on::after{left:28px;background:#d9ffef}
-.feature.disabled{opacity:.6}
+.overlay{position:fixed;inset:0;background:rgba(3,7,15,.90);display:flex;align-items:center;justify-content:center;z-index:20;padding:18px}
+.overlay-panel{max-width:760px;width:100%;border:1px solid var(--line);background:rgba(13,19,36,.92);border-radius:28px;padding:22px;box-shadow:var(--shadow);backdrop-filter:blur(18px)}
+.overlay-panel h2{margin:0 0 10px;font-size:28px}
+.overlay-panel p{margin:0 0 16px;color:var(--muted);line-height:1.6}
+.overlay-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.hidden{display:none !important}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{filter:drop-shadow(0 0 0 rgba(49,240,160,0))}50%{filter:drop-shadow(0 0 18px rgba(49,240,160,.18))}}
 @media (max-width: 1040px){
   .grid{grid-template-columns:1fr}
-  .btn-row,.btn-row-3,.stats,.modes,.toggle-row,.mini-stats,.feature-grid{grid-template-columns:1fr}
+  .btn-row,.btn-row-3,.stats,.modes,.toggle-row,.mini-stats,.feature-grid,.overlay-grid{grid-template-columns:1fr}
   .score-number{font-size:42px}
 }
 
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <div id="startOverlay" class="overlay">
+    <div class="overlay-panel">
+      <div class="eyebrow">Free Fire Sens AI Ultra</div>
+      <h2>Seu celular vai ser detectado automaticamente</h2>
+      <p>O site tenta reconhecer o aparelho pelo navegador e já começa em automático sem DPI. Você pode abrir a IA quando quiser e escolher o que fica automático e o que fica travado.</p>
+      <div class="overlay-grid">
+        <div class="pill green" id="detectedPhone">Celular: detectando...</div>
+        <div class="pill gold" id="detectedMode">Modo inicial: automático sem DPI</div>
+        <div class="pill cyan">Ajuste por botão</div>
+        <div class="pill cyan">Ajuste por toque</div>
+      </div>
+      <div class="top-actions">
+        <button class="btn-primary" id="openAiBtn">Abrir IA</button>
+        <button class="btn-secondary" id="useGuessBtn">Usar detecção automática</button>
+      </div>
+    </div>
+  </div>  <div class="wrap">
     <div class="hero">
       <div class="topbar">
         <div>
@@ -224,12 +213,17 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
         </div>
         <div class="pill green" id="statusPill">IA ativa</div>
       </div>
-      <p class="sub">Coloca o nome do celular e a IA calcula sozinha o DPI, o tamanho do botão de tiro e a pressão do toque. Agora você também decide, mesmo no automático, quais partes ficam automáticas e quais ficam travadas no valor manual.</p>
-    </div><div class="grid">
+      <p class="sub">Coloca o nome do celular e a IA calcula sozinha o DPI, o tamanho do botão de tiro e a pressão do toque. Agora você também escolhe quais partes ficam automáticas e quais ficam travadas, sem sair do modo principal.</p>
+      <div class="top-actions">
+        <button class="btn-primary" id="searchBtn">Procurar sensibilidade</button>
+        <button class="btn-secondary" id="openPanelBtn">Mostrar ajustes</button>
+        <span class="pill" id="currentPhonePill">Celular: não definido</span>
+      </div>
+    </div><div id="mainArea" class="grid hidden">
   <section class="card">
     <div class="section-title">
       <h2>Painel da IA</h2>
-      <span class="badge" id="modeBadge">Automático total</span>
+      <span class="badge" id="modeBadge">Automático sem DPI</span>
     </div>
 
     <div class="field">
@@ -243,58 +237,39 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
         <div class="toggle active" data-auto="on">Automático total</div>
         <div class="toggle" data-auto="off">Manual assistido</div>
       </div>
-      <div class="hint" style="margin-top:8px">No automático total, a IA pode ajustar tudo ou só o que você liberar.</div>
+      <div class="hint" style="margin-top:8px">O padrão inicial é automático sem DPI. Você liga a DPI só se quiser.</div>
     </div>
 
     <div class="field">
       <label>O que a IA pode controlar</label>
       <div class="feature-grid">
         <div class="feature" data-feature="dpi">
-          <div>
-            <strong>DPI</strong>
-            <span>Auto ou manual</span>
-          </div>
-          <div class="switch on" data-switch="dpi"></div>
+          <div><strong>DPI</strong><span>Auto ou manual</span></div>
+          <div class="switch" data-switch="dpi"></div>
         </div>
         <div class="feature" data-feature="button">
-          <div>
-            <strong>Botão</strong>
-            <span>Tamanho do tiro</span>
-          </div>
+          <div><strong>Botão</strong><span>Tamanho do tiro</span></div>
           <div class="switch on" data-switch="button"></div>
         </div>
         <div class="feature" data-feature="touch">
-          <div>
-            <strong>Toque</strong>
-            <span>Pressão do dedo</span>
-          </div>
+          <div><strong>Toque</strong><span>Pressão do dedo</span></div>
           <div class="switch on" data-switch="touch"></div>
         </div>
       </div>
       <div class="feature-grid" style="margin-top:10px">
         <div class="feature" data-feature="sens">
-          <div>
-            <strong>Sensis principais</strong>
-            <span>Geral, red, 2x, 4x, AWM</span>
-          </div>
+          <div><strong>Sensis principais</strong><span>Geral, red, 2x, 4x, AWM</span></div>
           <div class="switch on" data-switch="sens"></div>
         </div>
         <div class="feature" data-feature="free">
-          <div>
-            <strong>Mira livre</strong>
-            <span>Auto ou travada</span>
-          </div>
+          <div><strong>Mira livre</strong><span>Auto ou travada</span></div>
           <div class="switch on" data-switch="free"></div>
         </div>
         <div class="feature" data-feature="save">
-          <div>
-            <strong>Salvar</strong>
-            <span>No navegador</span>
-          </div>
+          <div><strong>Salvar</strong><span>No navegador</span></div>
           <div class="switch on" data-switch="save"></div>
         </div>
       </div>
-      <div class="hint" style="margin-top:8px">Você pode ligar ou desligar cada parte sem sair do automático.</div>
     </div>
 
     <div class="field">
@@ -309,7 +284,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
     <div class="autobox">
       <div class="top">
         <strong>Entradas e ajustes</strong>
-        <span class="pill" id="autoState">Auto total</span>
+        <span class="pill" id="autoState">Auto sem DPI</span>
       </div>
       <div class="field">
         <label for="dpi">DPI</label>
@@ -353,7 +328,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
       <h2>Resultado inteligente</h2>
       <span class="badge">Atualização instantânea</span>
     </div>
-
     <div class="panel-grid">
       <div class="big-score">
         <div>
@@ -362,13 +336,11 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
         </div>
         <div class="score-text" id="scoreText">A IA priorizou capa rápida com estabilidade alta e resposta limpa.</div>
       </div>
-
       <div class="mini-stats">
-        <div class="mini-stat"><div class="k">DPI alvo</div><div class="v" id="targetDpi">240</div></div>
+        <div class="mini-stat"><div class="k">DPI alvo</div><div class="v" id="targetDpi">—</div></div>
         <div class="mini-stat"><div class="k">Botão alvo</div><div class="v" id="targetButton">50%</div></div>
         <div class="mini-stat"><div class="k">Toque alvo</div><div class="v" id="targetTouch">50</div></div>
       </div>
-
       <div class="stats">
         <div class="stat"><div class="k">Geral</div><div class="v" id="outGeneral">176</div></div>
         <div class="stat"><div class="k">Ponto vermelho</div><div class="v" id="outRed">160</div></div>
@@ -377,7 +349,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
         <div class="stat"><div class="k">AWM</div><div class="v" id="outAwm">118</div></div>
         <div class="stat"><div class="k">Mira livre</div><div class="v" id="outFree">18</div></div>
       </div>
-
       <div class="card" style="padding:14px;background:rgba(255,255,255,.04)">
         <div class="section-title" style="margin-bottom:10px">
           <h2 style="font-size:16px">Leitura da IA</h2>
@@ -385,7 +356,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
         </div>
         <div class="chips" id="chips"></div>
       </div>
-
       <div class="autobox">
         <div class="top">
           <strong>Recomendação de estabilidade</strong>
@@ -394,9 +364,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
         <div class="progress"><div id="progressBar"></div></div>
         <div class="footer-note" id="stabilityText">A IA está entregando um ajuste equilibrado entre velocidade de puxada e controle de recuo.</div>
       </div>
-
       <div class="output" id="output"></div>
-      <div class="hint">A lógica é local: identifica perfil do aparelho, estilo, modo automático, e também quais partes você quer que a IA mexa. Depois salva tudo no navegador.</div>
+      <div class="hint">A lógica é local, começa automático sem DPI e só mexe no que você liberar. O botão de procurar sensibilidade recalcula tudo do zero.</div>
     </div>
   </aside>
 </div>
@@ -425,18 +394,13 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
     const stabilityText = el('stabilityText');
     const stabilityTag = el('stabilityTag');
     const toast = el('toast');
+    const overlay = el('startOverlay');
+    const mainArea = el('mainArea');
 
     let state = {
       style: 'capa',
       auto: true,
-      features: {
-        dpi: true,
-        button: true,
-        touch: true,
-        sens: true,
-        free: true,
-        save: true,
-      }
+      features: { dpi: false, button: true, touch: true, sens: true, free: true, save: true }
     };
 
     const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
@@ -449,19 +413,31 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
       window.__toastTimer = setTimeout(() => toast.classList.remove('show'), 1500);
     }
 
+    function detectPhoneName() {
+      const ua = navigator.userAgent || '';
+      const uad = navigator.userAgentData;
+      const brand = (uad && Array.isArray(uad.brands) ? uad.brands.map(b => b.brand).join(' ') : '').toLowerCase();
+      const full = (ua + ' ' + brand).toLowerCase();
+      if (full.includes('redmi')) return 'Redmi';
+      if (full.includes('xiaomi') || full.includes('mi ')) return 'Xiaomi';
+      if (full.includes('samsung')) return 'Samsung Galaxy';
+      if (full.includes('motorola') || full.includes('moto')) return 'Moto G';
+      if (full.includes('realme')) return 'Realme';
+      if (full.includes('poco')) return 'POCO';
+      if (full.includes('oppo')) return 'OPPO';
+      if (full.includes('vivo')) return 'Vivo';
+      if (full.includes('tecno')) return 'Tecno';
+      if (full.includes('itel')) return 'itel';
+      return '';
+    }
+
     function profileFromDevice(name) {
       const n = (name || '').toLowerCase();
       const hit = (list) => list.some(k => n.includes(k));
-      if (hit(['s24','s23','s22','iphone','rog','redmagic','poco f','poco x6 pro','redmi note 13 pro','redmi note 14 pro','oneplus'])) {
-        return { tier: 'alto', base: 1.10, aim: 0.94, label: 'Celular forte detectado', color: 'green' };
-      }
-      if (hit(['redmi note','moto g','galaxy a2','galaxy a1','narzo','realme c67','poco m','redmi 12','redmi 11','infinix gt','galaxy m'])) {
-        return { tier: 'médio', base: 1.00, aim: 1.00, label: 'Celular intermediário detectado', color: 'gold' };
-      }
-      if (hit(['redmi 13c','redmi 12c','redmi 10c','a03','a05','a12','moto e','itel','infinix hot','realme c','tecno pop'])) {
-        return { tier: 'baixo', base: 0.94, aim: 1.08, label: 'Celular de entrada detectado', color: 'cyan' };
-      }
-      return { tier: 'médio', base: 0.98, aim: 1.00, label: 'Perfil genérico aplicado', color: 'gold' };
+      if (hit(['s24','s23','s22','iphone','rog','redmagic','poco f','poco x6 pro','redmi note 13 pro','redmi note 14 pro','oneplus'])) return { tier: 'alto', base: 1.10, label: 'Celular forte detectado', color: 'green' };
+      if (hit(['redmi note','moto g','galaxy a2','galaxy a1','narzo','realme c67','poco m','redmi 12','redmi 11','infinix gt','galaxy m'])) return { tier: 'médio', base: 1.00, label: 'Celular intermediário detectado', color: 'gold' };
+      if (hit(['redmi 13c','redmi 12c','redmi 10c','a03','a05','a12','moto e','itel','infinix hot','realme c','tecno pop'])) return { tier: 'baixo', base: 0.94, label: 'Celular de entrada detectado', color: 'cyan' };
+      return { tier: 'médio', base: 0.98, label: 'Perfil genérico aplicado', color: 'gold' };
     }
 
     function setStyle(next) {
@@ -473,27 +449,25 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
     function setAuto(next) {
       state.auto = next;
       document.querySelectorAll('[data-auto]').forEach(x => x.classList.toggle('active', x.dataset.auto === (next ? 'on' : 'off')));
-      autoState.textContent = next ? 'Auto total' : 'Manual';
-      modeBadge.textContent = next ? 'Automático total' : 'Manual assistido';
+      modeBadge.textContent = next ? 'Automático sem DPI' : 'Manual assistido';
+      autoState.textContent = next ? 'Auto sem DPI' : 'Manual';
       statusPill.textContent = next ? 'IA ativa' : 'IA parcial';
       render();
     }
 
     function setFeature(key, value) {
       state.features[key] = value;
-      const sw = document.querySelector(`[data-switch="${key}"]`);
-      const feat = document.querySelector(`[data-feature="${key}"]`);
-      if (sw) sw.classList.toggle('on', value);
-      if (feat) feat.classList.toggle('disabled', !value);
       render();
     }
 
     function syncFeatureControls() {
-      Object.entries(state.features).forEach(([key, value]) => {
-        const sw = document.querySelector(`[data-switch="${key}"]`);
-        const feat = document.querySelector(`[data-feature="${key}"]`);
-        if (sw) sw.classList.toggle('on', value);
-        if (feat) feat.classList.toggle('disabled', !value);
+      document.querySelectorAll('[data-switch]').forEach(sw => {
+        const key = sw.dataset.switch;
+        sw.classList.toggle('on', !!state.features[key]);
+      });
+      document.querySelectorAll('[data-feature]').forEach(feat => {
+        const key = feat.dataset.feature;
+        feat.classList.toggle('disabled', !state.features[key]);
       });
     }
 
@@ -506,16 +480,13 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
       const tierBiasDpi = profile.tier === 'alto' ? 18 : profile.tier === 'médio' ? 0 : -14;
       const tierBiasButton = profile.tier === 'alto' ? -1 : profile.tier === 'médio' ? 0 : 3;
       const tierBiasTouch = profile.tier === 'alto' ? -2 : profile.tier === 'médio' ? 0 : 4;
-
       const dpiTarget = clamp(240 * styleFactor + styleDpiBias + tierBiasDpi, 140, 540);
       const buttonTarget = clamp(50 + styleButtonBias + tierBiasButton, 22, 72);
       const touchTarget = clamp(50 + styleTouchBias + tierBiasTouch, 10, 90);
-
       if (state.auto && state.features.dpi) dpi.value = round(dpiTarget / 10) * 10;
       if (state.auto && state.features.button) button.value = round(buttonTarget);
       if (state.auto && state.features.touch) touch.value = round(touchTarget);
-
-      return { profile, dpiTarget: round(dpiTarget), buttonTarget: round(buttonTarget), touchTarget: round(touchTarget), styleFactor };
+      return { profile, dpiTarget: round(dpiTarget), buttonTarget: round(buttonTarget), touchTarget: round(touchTarget) };
     }
 
     function buildConfig() {
@@ -528,7 +499,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
       const buttonFactor = state.auto && state.features.button ? (b - 50) / 50 : 0;
       const touchFactor = state.auto && state.features.touch ? (t - 50) / 50 : 0;
       const prof = profile.base;
-
       const base = { geral: 174, red: 158, two: 142, four: 130, awm: 116, free: 18 };
       const geral = clamp(base.geral * styleBoost * prof + dpiFactor * 30 - buttonFactor * 13 - touchFactor * 7, 100, 200);
       const red = clamp(base.red * styleBoost * prof + dpiFactor * 25 - buttonFactor * 11 - touchFactor * 6, 90, 200);
@@ -536,32 +506,12 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
       const four = clamp(base.four * styleBoost * prof + dpiFactor * 16 - buttonFactor * 8 - touchFactor * 4, 70, 190);
       const awm = clamp(base.awm * styleBoost * prof + dpiFactor * 11 - buttonFactor * 6 - touchFactor * 3, 60, 180);
       const free = clamp(base.free + (state.style === 'capa' ? 2 : state.style === 'controle' ? -1 : 0) + (state.auto ? 1 : 0), 10, 30);
-
-      const score = clamp(
-        68 +
-        (state.style === 'capa' ? 14 : state.style === 'equilibrado' ? 10 : 6) +
-        (state.auto ? 11 : 4) +
-        (profile.tier === 'alto' ? 5 : profile.tier === 'baixo' ? 0 : 2) +
-        (b >= 45 && b <= 58 ? 3 : 0) +
-        (t >= 35 && t <= 62 ? 4 : 0),
-        0,
-        100
-      );
-
+      const score = clamp(68 + (state.style === 'capa' ? 14 : state.style === 'equilibrado' ? 10 : 6) + (state.auto ? 11 : 4) + (profile.tier === 'alto' ? 5 : profile.tier === 'baixo' ? 0 : 2) + (b >= 45 && b <= 58 ? 3 : 0) + (t >= 35 && t <= 62 ? 4 : 0), 0, 100);
       return {
         profile,
         score,
-        geral: round(geral),
-        red: round(red),
-        two: round(two),
-        four: round(four),
-        awm: round(awm),
-        free: round(free),
-        explanation:
-          `${profile.label.toLowerCase()}. ` +
-          `A IA está priorizando ${state.style === 'capa' ? 'capa rápida' : state.style === 'equilibrado' ? 'equilíbrio estável' : 'controle fino'} ` +
-          `${state.auto ? 'com ajuste automático total' : 'com assistência manual'}. ` +
-          `O conjunto atual favorece ${b <= 52 ? 'botão menor' : 'botão maior'} e ${t <= 48 ? 'toque leve' : 'toque firme'}.`
+        geral: round(geral), red: round(red), two: round(two), four: round(four), awm: round(awm), free: round(free),
+        explanation: `${profile.label.toLowerCase()}. A IA está priorizando ${state.style === 'capa' ? 'capa rápida' : state.style === 'equilibrado' ? 'equilíbrio estável' : 'controle fino'} ${state.auto ? 'com ajuste automático total' : 'com assistência manual'}.`
       };
     }
 
@@ -573,15 +523,14 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
       dpiVal.textContent = dpi.value;
       buttonVal.textContent = `${button.value}%`;
       touchVal.textContent = touch.value;
-      targetDpi.textContent = smart.dpiTarget;
-      targetButton.textContent = `${smart.buttonTarget}%`;
-      targetTouch.textContent = smart.touchTarget;
+      targetDpi.textContent = state.features.dpi ? smart.dpiTarget : '—';
+      targetButton.textContent = state.features.button ? `${smart.buttonTarget}%` : '—';
+      targetTouch.textContent = state.features.touch ? smart.touchTarget : '—';
       profileTag.textContent = profile.label;
       profileTag.className = `pill ${profile.color}`;
-      modeBadge.textContent = state.auto ? 'Automático total' : 'Manual assistido';
-      autoState.textContent = state.auto ? 'Auto total' : 'Manual';
+      modeBadge.textContent = state.auto ? 'Automático sem DPI' : 'Manual assistido';
+      autoState.textContent = state.auto ? 'Auto sem DPI' : 'Manual';
       statusPill.textContent = state.auto ? 'IA ativa' : 'IA parcial';
-
       syncFeatureControls();
 
       scoreNum.textContent = cfg.score;
@@ -590,49 +539,33 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
       const stabilityBase = 100 - Math.abs(Number(button.value) - smart.buttonTarget) * 2 - Math.abs(Number(touch.value) - smart.touchTarget) * 1.3;
       const stability = clamp(stabilityBase, 30, 100);
       progressBar.style.width = `${stability}%`;
-      if (stability >= 80) {
-        stabilityTag.textContent = 'Alta';
-        stabilityText.textContent = 'A IA está entregando um ajuste muito estável, com excelente equilíbrio entre puxada e controle.';
-      } else if (stability >= 60) {
-        stabilityTag.textContent = 'Média';
-        stabilityText.textContent = 'A configuração está boa, mas ainda dá para aproximar mais o botão e o toque do alvo da IA.';
-      } else {
-        stabilityTag.textContent = 'Baixa';
-        stabilityText.textContent = 'A configuração está distante do ponto ideal; a IA recomenda aplicar o ajuste automático.';
-      }
+      stabilityTag.textContent = stability >= 80 ? 'Alta' : stability >= 60 ? 'Média' : 'Baixa';
+      stabilityText.textContent = stability >= 80 ? 'A IA está entregando um ajuste muito estável, com excelente equilíbrio entre puxada e controle.' : stability >= 60 ? 'A configuração está boa, mas ainda dá para aproximar mais do alvo da IA.' : 'A configuração está distante do ideal; a IA recomenda usar o botão de procurar sensibilidade.';
 
-      const sensEnabled = state.features.sens;
-      const freeEnabled = state.features.free;
-
-      el('outGeneral').textContent = sensEnabled ? cfg.geral : '—';
-      el('outRed').textContent = sensEnabled ? cfg.red : '—';
-      el('out2x').textContent = sensEnabled ? cfg.two : '—';
-      el('out4x').textContent = sensEnabled ? cfg.four : '—';
-      el('outAwm').textContent = sensEnabled ? cfg.awm : '—';
-      el('outFree').textContent = freeEnabled ? cfg.free : '—';
+      el('outGeneral').textContent = state.features.sens ? cfg.geral : '—';
+      el('outRed').textContent = state.features.sens ? cfg.red : '—';
+      el('out2x').textContent = state.features.sens ? cfg.two : '—';
+      el('out4x').textContent = state.features.sens ? cfg.four : '—';
+      el('outAwm').textContent = state.features.sens ? cfg.awm : '—';
+      el('outFree').textContent = state.features.free ? cfg.free : '—';
 
       chips.innerHTML = '';
       const tags = [
         profile.label,
         state.style === 'capa' ? 'Foco em capa' : state.style === 'equilibrado' ? 'Perfil balanceado' : 'Perfil de controle',
         state.auto ? 'IA total ligada' : 'IA parcial ligada',
-        state.features.dpi ? `DPI automático` : 'DPI travado',
-        state.features.button ? `Botão automático` : 'Botão travado',
-        state.features.touch ? `Toque automático` : 'Toque travado',
+        state.features.dpi ? 'DPI automático' : 'DPI travado',
+        state.features.button ? 'Botão automático' : 'Botão travado',
+        state.features.touch ? 'Toque automático' : 'Toque travado',
         state.features.sens ? 'Sensis automáticas' : 'Sensis travadas',
         state.features.free ? 'Mira livre automática' : 'Mira livre travada',
         `Estabilidade ${Math.round(stability)}%`
       ];
-      tags.forEach(text => {
-        const c = document.createElement('div');
-        c.className = 'chip';
-        c.textContent = text;
-        chips.appendChild(c);
-      });
+      tags.forEach(text => { const c = document.createElement('div'); c.className = 'chip'; c.textContent = text; chips.appendChild(c); });
 
       output.textContent = [
         `Dispositivo: ${device.value || 'Não informado'}`,
-        `Modo IA: ${state.auto ? 'Automático total' : 'Manual assistido'}`,
+        `Modo IA: ${state.auto ? 'Automático sem DPI' : 'Manual assistido'}`,
         `Estilo: ${state.style}`,
         `DPI: ${state.features.dpi ? dpi.value : 'travado'}`,
         `Botão: ${state.features.button ? button.value + '%' : 'travado'}`,
@@ -645,7 +578,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
         `AWM: ${state.features.sens ? cfg.awm : 'travado'}`,
         `Mira livre: ${state.features.free ? cfg.free : 'travado'}`,
         '',
-        `Sugestão IA: DPI ${smart.dpiTarget}, botão ${smart.buttonTarget}%, toque ${smart.touchTarget}`,
+        `Sugestão IA: ${state.features.dpi ? `DPI ${smart.dpiTarget}` : 'DPI desligado'}, ${state.features.button ? `botão ${smart.buttonTarget}%` : 'botão travado'}, ${state.features.touch ? `toque ${smart.touchTarget}` : 'toque travado'}`,
         `Estabilidade estimada: ${Math.round(stability)}%`
       ].join('\n');
 
@@ -662,67 +595,53 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
       }
     }
 
+    function detectAndPrefill() {
+      const guessed = detectPhoneName();
+      if (guessed && !device.value) device.value = guessed;
+      el('detectedPhone').textContent = `Celular: ${device.value || guessed || 'não detectado'}`;
+      el('currentPhonePill').textContent = `Celular: ${device.value || guessed || 'não definido'}`;
+    }
+
+    function openMain() {
+      overlay.classList.add('hidden');
+      mainArea.classList.remove('hidden');
+      render();
+    }
+
     document.querySelectorAll('[data-style]').forEach(elm => elm.addEventListener('click', () => setStyle(elm.dataset.style)));
     document.querySelectorAll('[data-auto]').forEach(elm => elm.addEventListener('click', () => setAuto(elm.dataset.auto === 'on')));
-    document.querySelectorAll('[data-switch]').forEach(sw => {
-      sw.addEventListener('click', () => {
-        const key = sw.dataset.switch;
-        setFeature(key, !state.features[key]);
-      });
-    });
+    document.querySelectorAll('[data-switch]').forEach(sw => sw.addEventListener('click', () => setFeature(sw.dataset.switch, !state.features[sw.dataset.switch])));
     ['input','change'].forEach(evt => {
-      device.addEventListener(evt, render);
+      device.addEventListener(evt, () => { el('currentPhonePill').textContent = `Celular: ${device.value || 'não definido'}`; render(); });
       dpi.addEventListener(evt, render);
       button.addEventListener(evt, render);
       touch.addEventListener(evt, render);
     });
 
-    el('applyBtn').addEventListener('click', () => {
-      smartTune();
-      render();
-      toastMsg('IA aplicada com sucesso');
-    });
+    el('openAiBtn').addEventListener('click', openMain);
+    el('useGuessBtn').addEventListener('click', () => { detectAndPrefill(); openMain(); toastMsg('Detecção aplicada'); });
+    el('openPanelBtn').addEventListener('click', () => { overlay.classList.add('hidden'); mainArea.classList.remove('hidden'); toastMsg('Painel aberto'); });
+    el('searchBtn').addEventListener('click', () => { openMain(); setAuto(true); if (!device.value) detectAndPrefill(); smartTune(); render(); toastMsg('IA procurando sensibilidade'); });
 
-    el('preset1').addEventListener('click', () => {
-      setStyle('capa');
-      setAuto(true);
-      state.features = { dpi: true, button: true, touch: true, sens: true, free: true, save: true };
-      device.value = device.value || 'Redmi 13C 5G';
-      render();
-      toastMsg('Preset capa ativado');
-    });
+    el('applyBtn').addEventListener('click', () => { smartTune(); render(); toastMsg('IA aplicada com sucesso'); });
 
-    el('preset2').addEventListener('click', () => {
-      setStyle('equilibrado');
-      setAuto(true);
-      state.features = { dpi: true, button: true, touch: true, sens: true, free: true, save: true };
-      device.value = device.value || 'Redmi Note 13';
-      render();
-      toastMsg('Preset equilíbrio ativado');
-    });
-
-    el('preset3').addEventListener('click', () => {
-      setStyle('controle');
-      setAuto(true);
-      state.features = { dpi: true, button: true, touch: true, sens: true, free: true, save: true };
-      device.value = device.value || 'Moto G';
-      render();
-      toastMsg('Preset controle ativado');
-    });
+    el('preset1').addEventListener('click', () => { setStyle('capa'); setAuto(true); state.features = { dpi: false, button: true, touch: true, sens: true, free: true, save: true }; device.value = device.value || 'Redmi 13C 5G'; render(); toastMsg('Preset capa ativado'); });
+    el('preset2').addEventListener('click', () => { setStyle('equilibrado'); setAuto(true); state.features = { dpi: false, button: true, touch: true, sens: true, free: true, save: true }; device.value = device.value || 'Redmi Note 13'; render(); toastMsg('Preset equilíbrio ativado'); });
+    el('preset3').addEventListener('click', () => { setStyle('controle'); setAuto(true); state.features = { dpi: false, button: true, touch: true, sens: true, free: true, save: true }; device.value = device.value || 'Moto G'; render(); toastMsg('Preset controle ativado'); });
 
     el('copyBtn').addEventListener('click', async () => {
       const smart = smartTune();
       const cfg = buildConfig();
       const text = [
         `Dispositivo: ${device.value || 'Não informado'}`,
-        `Modo IA: ${state.auto ? 'Automático total' : 'Manual assistido'}`,
+        `Modo IA: ${state.auto ? 'Automático sem DPI' : 'Manual assistido'}`,
         `Estilo: ${state.style}`,
         `DPI: ${state.features.dpi ? dpi.value : 'travado'}`,
         `Botão: ${state.features.button ? button.value + '%' : 'travado'}`,
         `Toque: ${state.features.touch ? touch.value : 'travado'}`,
         `Sensis automáticas: ${state.features.sens ? 'sim' : 'não'}`,
         `Mira livre automática: ${state.features.free ? 'sim' : 'não'}`,
-        `Sugestão IA: DPI ${smart.dpiTarget}, botão ${smart.buttonTarget}%, toque ${smart.touchTarget}`,
+        `Sugestão IA: ${state.features.dpi ? `DPI ${smart.dpiTarget}` : 'DPI desligado'}, ${state.features.button ? `botão ${smart.buttonTarget}%` : 'botão travado'}, ${state.features.touch ? `toque ${smart.touchTarget}` : 'toque travado'}`,
         `Geral: ${state.features.sens ? cfg.geral : 'travado'}`,
         `Ponto vermelho: ${state.features.sens ? cfg.red : 'travado'}`,
         `2x: ${state.features.sens ? cfg.two : 'travado'}`,
@@ -752,12 +671,11 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
         setAuto(data.auto !== false);
         if (data.features) state.features = { ...state.features, ...data.features };
       } catch {
-        setAuto(true);
+        state.auto = true;
       }
-    } else {
-      setAuto(true);
     }
 
+    detectAndPrefill();
     syncFeatureControls();
     render();
   </script></body>
