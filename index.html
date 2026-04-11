@@ -1,1186 +1,1344 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#07111f" />
-  <title>Free Fire Sens AI Ultra</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <meta name="theme-color" content="#07111f"/>
+  <title>Free Fire Sens AI Ultra v2</title>
   <style>
     :root{
-      --bg0:#040713;
-      --bg1:#09101f;
-      --bg2:#0d1730;
-      --card:rgba(13,19,36,.80);
-      --card-strong:rgba(10,15,28,.94);
-      --line:rgba(255,255,255,.08);
-      --text:#eef4ff;
-      --muted:#9fb0d0;
-      --green:#31f0a0;
-      --cyan:#64d8ff;
-      --gold:#f8d36a;
-      --shadow:0 24px 80px rgba(0,0,0,.42);
-      --radius:26px;
+      --bg0:#040713;--bg1:#09101f;--bg2:#0d1730;
+      --card:rgba(13,19,36,.82);--card-strong:rgba(10,15,28,.96);
+      --line:rgba(255,255,255,.08);--text:#eef4ff;--muted:#9fb0d0;
+      --green:#31f0a0;--cyan:#64d8ff;--gold:#f8d36a;--red:#ff6b6b;
+      --shadow:0 24px 80px rgba(0,0,0,.45);--radius:24px;
     }
-    *{box-sizing:border-box}
+    *{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
     body{
-      margin:0;
-      min-height:100vh;
-      color:var(--text);
-      font-family:Inter,Segoe UI,Arial,sans-serif;
+      min-height:100vh;color:var(--text);
+      font-family:Inter,'Segoe UI',Arial,sans-serif;
       background:
-        radial-gradient(circle at 12% 8%, rgba(49,240,160,.16), transparent 20%),
-        radial-gradient(circle at 88% 10%, rgba(100,216,255,.14), transparent 20%),
-        radial-gradient(circle at 50% 100%, rgba(248,211,106,.10), transparent 24%),
+        radial-gradient(circle at 12% 8%,rgba(49,240,160,.18),transparent 22%),
+        radial-gradient(circle at 88% 10%,rgba(100,216,255,.15),transparent 22%),
+        radial-gradient(circle at 50% 100%,rgba(248,211,106,.11),transparent 26%),
         linear-gradient(160deg,var(--bg0),var(--bg1) 40%,var(--bg2));
       overflow-x:hidden;
     }
     body::before{
-      content:"";
-      position:fixed;inset:0;
-      background:
-        linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
-      background-size:42px 42px;
-      mask-image:linear-gradient(to bottom, rgba(0,0,0,.2), rgba(0,0,0,.8));
-      pointer-events:none;
-      opacity:.2;
+      content:"";position:fixed;inset:0;
+      background:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+                 linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+      background-size:44px 44px;pointer-events:none;opacity:.18;
     }
-    .wrap{max-width:1380px;margin:0 auto;padding:20px;position:relative;z-index:1}
+    .wrap{max-width:1400px;margin:0 auto;padding:18px;position:relative;z-index:1}
+
+    /* ── OVERLAY ── */
+    .overlay{
+      position:fixed;inset:0;background:rgba(3,7,15,.92);
+      display:flex;align-items:center;justify-content:center;z-index:30;padding:18px;
+    }
+    .overlay-panel{
+      max-width:780px;width:100%;
+      border:1px solid var(--line);background:rgba(10,14,26,.96);
+      border-radius:28px;padding:26px;box-shadow:var(--shadow);backdrop-filter:blur(22px);
+    }
+    .overlay-panel h2{font-size:clamp(22px,3.5vw,34px);margin:8px 0 12px}
+    .overlay-panel p{color:var(--muted);line-height:1.65;font-size:14px;margin-bottom:18px}
+    .overlay-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px}
+
+    /* ── HERO ── */
     .hero{
       border:1px solid var(--line);
-      background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));
-      border-radius:32px;
-      padding:28px;
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(18px);
-      margin-bottom:18px;
-      position:relative;
-      overflow:hidden;
-      animation:fadeUp .45s ease both;
+      background:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.03));
+      border-radius:30px;padding:24px 28px;box-shadow:var(--shadow);
+      backdrop-filter:blur(18px);margin-bottom:16px;position:relative;overflow:hidden;
+      animation:fadeUp .4s ease both;
     }
     .hero::after{
-      content:"";
-      position:absolute;right:-90px;top:-90px;width:260px;height:260px;border-radius:50%;
-      background:radial-gradient(circle, rgba(49,240,160,.16), transparent 65%);
+      content:"";position:absolute;right:-80px;top:-80px;width:240px;height:240px;
+      border-radius:50%;background:radial-gradient(circle,rgba(49,240,160,.17),transparent 65%);
       pointer-events:none;
     }
-    .eyebrow{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--green)}
-    h1{margin:10px 0 10px;font-size:clamp(30px,4.7vw,58px);line-height:1.02}
-    .sub{margin:0;max-width:1000px;color:var(--muted);line-height:1.7;font-size:15px}
-    .top-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-    .pill{padding:9px 12px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);font-size:12px;color:#dce9ff}
-    .pill.green{background:rgba(49,240,160,.12);border-color:rgba(49,240,160,.18);color:#dfffee}
-    .pill.gold{background:rgba(248,211,106,.11);border-color:rgba(248,211,106,.18);color:#fff0bf}
-    .pill.cyan{background:rgba(100,216,255,.11);border-color:rgba(100,216,255,.18);color:#dbf8ff}
-    .grid{display:grid;grid-template-columns:1.03fr .97fr;gap:18px;align-items:start}
+    .topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+    .eyebrow{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--green)}
+    h1{font-size:clamp(26px,4vw,52px);line-height:1.03;margin:8px 0 10px}
+    .sub{color:var(--muted);line-height:1.7;font-size:14px;max-width:960px}
+    .top-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+
+    /* ── PILLS / BADGES ── */
+    .pill{
+      padding:9px 13px;border-radius:999px;
+      background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);
+      font-size:12px;color:#dce9ff;white-space:nowrap;
+    }
+    .pill.green{background:rgba(49,240,160,.13);border-color:rgba(49,240,160,.2);color:#dfffee}
+    .pill.gold{background:rgba(248,211,106,.12);border-color:rgba(248,211,106,.2);color:#fff0bf}
+    .pill.cyan{background:rgba(100,216,255,.12);border-color:rgba(100,216,255,.2);color:#dbf8ff}
+    .pill.red{background:rgba(255,107,107,.12);border-color:rgba(255,107,107,.2);color:#ffd5d5}
+    .badge{font-size:12px;padding:7px 12px;border-radius:999px;background:rgba(49,240,160,.12);color:#dcfff0;border:1px solid rgba(49,240,160,.22)}
+
+    /* ── GRID ── */
+    .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:16px;align-items:start}
+
+    /* ── CARDS ── */
     .card{
-      border:1px solid var(--line);
-      background:var(--card);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:18px;
-      backdrop-filter:blur(16px);
-      position:relative;
-      overflow:hidden;
-      animation:fadeUp .45s ease both;
+      border:1px solid var(--line);background:var(--card);border-radius:var(--radius);
+      box-shadow:var(--shadow);padding:18px;backdrop-filter:blur(16px);
+      position:relative;overflow:hidden;animation:fadeUp .45s ease both;
     }
     .card::before{
-      content:"";
-      position:absolute;inset:0;
-      background:linear-gradient(135deg, rgba(49,240,160,.05), transparent 35%, rgba(100,216,255,.04));
+      content:"";position:absolute;inset:0;
+      background:linear-gradient(135deg,rgba(49,240,160,.04),transparent 38%,rgba(100,216,255,.03));
       pointer-events:none;
     }
-    .section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;position:relative;z-index:1}
-    .section-title h2{margin:0;font-size:18px;letter-spacing:.01em}
-    .badge{font-size:12px;padding:7px 10px;border-radius:999px;background:rgba(49,240,160,.12);color:#dcfff0;border:1px solid rgba(49,240,160,.2)}
+    .section-title{
+      display:flex;align-items:center;justify-content:space-between;
+      gap:12px;margin-bottom:14px;position:relative;z-index:1;
+    }
+    .section-title h2{font-size:17px;letter-spacing:.01em}
+
+    /* ── INPUTS ── */
     .field{margin-bottom:14px;position:relative;z-index:1}
     label{display:block;font-size:13px;color:#bfd0f2;margin-bottom:7px}
-    input,button,textarea{
-      font:inherit;
-      width:100%;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.09);
-      background:rgba(5,9,20,.84);
-      color:var(--text);
-      outline:none;
-      transition:.18s ease;
-    }
-    input,textarea{padding:13px 14px}
-    input:focus,textarea:focus{border-color:rgba(49,240,160,.62);box-shadow:0 0 0 4px rgba(49,240,160,.08)}
+    input,button,textarea{font:inherit;width:100%;border-radius:14px;border:1px solid rgba(255,255,255,.09);background:rgba(5,9,20,.84);color:var(--text);outline:none;transition:.18s ease}
+    input,textarea{padding:12px 14px}
+    input:focus,textarea:focus{border-color:rgba(49,240,160,.6);box-shadow:0 0 0 4px rgba(49,240,160,.07)}
     button{cursor:pointer;font-weight:800;padding:13px 16px}
     .btn-primary{background:linear-gradient(135deg,var(--green),#82f7c6);color:#07110a;border:none}
     .btn-secondary{background:rgba(255,255,255,.06)}
     .btn-tertiary{background:rgba(49,240,160,.08);border:1px solid rgba(49,240,160,.16)}
+    .btn-danger{background:rgba(255,107,107,.09);border:1px solid rgba(255,107,107,.2);color:#ffd5d5}
     .btn-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
     .btn-row-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-    .btn-primary:hover,.btn-secondary:hover,.btn-tertiary:hover,.toggle:hover,.mini:hover,.feature:hover,.stat:hover{transform:translateY(-1px)}
-    .btn-primary:active,.btn-secondary:active,.btn-tertiary:active,.toggle:active,.mini:active,.feature:active{transform:translateY(0)}
+    button:hover{transform:translateY(-1px)}
+    button:active{transform:translateY(0)}
 
+    /* ── TOGGLES ── */
     .toggle-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
     .toggle{
-      padding:12px 14px;border-radius:16px;border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.05);text-align:center;cursor:pointer;font-weight:800;color:#edf4ff;user-select:none;transition:.18s ease
+      padding:11px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.05);text-align:center;cursor:pointer;
+      font-weight:800;color:#edf4ff;user-select:none;transition:.18s ease;font-size:14px;
     }
-    .toggle.active{background:rgba(49,240,160,.16);border-color:rgba(49,240,160,.35);color:#e6fff3;box-shadow:0 0 0 1px rgba(49,240,160,.03) inset}
-    .range-box{padding:14px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)}
-    .range-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
-    .range-top span{font-size:13px;color:var(--muted)}
-    input[type=range]{width:100%;padding:0;background:transparent;border:none;box-shadow:none}
-    input[type=range]::-webkit-slider-runnable-track{height:8px;background:rgba(255,255,255,.13);border-radius:999px}
-    input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;background:var(--green);margin-top:-7px;border:3px solid #07140d}
+    .toggle.active{background:rgba(49,240,160,.16);border-color:rgba(49,240,160,.35);color:#e6fff3}
+    .toggle:hover{transform:translateY(-1px)}
 
+    /* ── RANGE ── */
+    .range-box{padding:13px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)}
+    .range-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+    .range-top span{font-size:12px;color:var(--muted)}
+    .range-top strong{font-size:16px;font-weight:900;min-width:60px;text-align:center}
+    input[type=range]{width:100%;padding:0;background:transparent;border:none;box-shadow:none;accent-color:var(--green)}
+    input[type=range]::-webkit-slider-runnable-track{height:8px;background:rgba(255,255,255,.12);border-radius:999px}
+    input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--green);margin-top:-7px;border:3px solid #07140d}
+
+    /* ── MODES / MINI ── */
     .modes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-    .mini{
-      padding:12px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);cursor:pointer;transition:.18s ease
-    }
-    .mini strong{display:block;margin-bottom:4px}
+    .mini{padding:12px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);cursor:pointer;transition:.18s ease}
+    .mini strong{display:block;margin-bottom:4px;font-size:14px}
     .mini span{font-size:12px;color:var(--muted);line-height:1.4}
     .mini.active{background:rgba(49,240,160,.14);border-color:rgba(49,240,160,.34)}
+    .mini:hover{transform:translateY(-1px)}
 
+    /* ── FEATURES / SWITCHES ── */
     .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-    .feature{padding:12px;border-radius:16px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between;gap:12px;transition:.18s ease}
+    .feature{padding:11px;border-radius:14px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between;gap:10px;transition:.18s ease}
     .feature strong{display:block;font-size:13px}
-    .feature span{font-size:12px;color:var(--muted)}
-    .feature.disabled{opacity:.6}
-    .switch{width:54px;height:30px;border-radius:999px;background:rgba(255,255,255,.12);position:relative;flex:0 0 auto;border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:.18s ease}
-    .switch::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.18s ease;box-shadow:0 3px 10px rgba(0,0,0,.3)}
-    .switch.on{background:rgba(49,240,160,.22);border-color:rgba(49,240,160,.24)}
-    .switch.on::after{left:28px;background:#d9ffef}
+    .feature span{font-size:11px;color:var(--muted)}
+    .feature.disabled{opacity:.55}
+    .switch{width:50px;height:28px;border-radius:999px;background:rgba(255,255,255,.12);position:relative;flex:0 0 auto;border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:.18s ease}
+    .switch::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.18s ease;box-shadow:0 3px 10px rgba(0,0,0,.3)}
+    .switch.on{background:rgba(49,240,160,.22);border-color:rgba(49,240,160,.25)}
+    .switch.on::after{left:26px;background:#d9ffef}
 
-    .panel-grid{display:grid;grid-template-columns:1fr;gap:12px;position:relative;z-index:1}
-    .big-score{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:16px;border-radius:20px;background:linear-gradient(135deg,rgba(49,240,160,.14),rgba(100,216,255,.08));border:1px solid rgba(255,255,255,.08)}
-    .score-number{font-size:52px;font-weight:900;line-height:1;color:#e2fff0;animation:pulse 2.5s ease-in-out infinite}
+    /* ── SCORE ── */
+    .big-score{
+      display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;
+      padding:16px;border-radius:20px;
+      background:linear-gradient(135deg,rgba(49,240,160,.13),rgba(100,216,255,.07));
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .score-number{font-size:56px;font-weight:900;line-height:1;color:#e2fff0;animation:pulse 2.8s ease-in-out infinite}
     .score-text{font-size:13px;color:#d7e6ff;line-height:1.7}
     .mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-    .mini-stat{padding:12px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07)}
-    .mini-stat .k{font-size:11px;color:var(--muted);margin-bottom:6px}
+    .mini-stat{padding:12px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07)}
+    .mini-stat .k{font-size:11px;color:var(--muted);margin-bottom:5px}
     .mini-stat .v{font-size:20px;font-weight:900;color:#edfdf3}
     .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-    .stat{padding:14px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);transition:.18s ease}
-    .stat .k{font-size:12px;color:var(--muted);margin-bottom:6px}
-    .stat .v{font-size:28px;font-weight:900;color:#e8fff3}
-    .chips{display:flex;flex-wrap:wrap;gap:8px}
-    .chip{padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);font-size:12px;color:#dce9ff}
-    .output{margin-top:12px;background:var(--card-strong);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:14px;white-space:pre-wrap;line-height:1.65;color:#d4e4ff;overflow:auto;min-height:220px}
+    .stat{padding:14px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);transition:.18s ease}
+    .stat:hover{transform:translateY(-1px)}
+    .stat .k{font-size:12px;color:var(--muted);margin-bottom:5px}
+    .stat .v{font-size:26px;font-weight:900;color:#e8fff3}
+
+    /* ── OUTPUT ── */
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+    .chip{padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);font-size:12px;color:#dce9ff}
+    .output{
+      background:var(--card-strong);border:1px solid rgba(255,255,255,.08);
+      border-radius:16px;padding:14px;white-space:pre-wrap;line-height:1.68;
+      color:#d4e4ff;overflow:auto;min-height:200px;font-size:13px;
+    }
     .hint{font-size:12px;color:var(--muted);line-height:1.55}
-    .glow-line{height:1px;background:linear-gradient(90deg, transparent, rgba(49,240,160,.5), transparent);margin:16px 0}
-    .autobox{padding:14px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)}
+    .glow-line{height:1px;background:linear-gradient(90deg,transparent,rgba(49,240,160,.5),transparent);margin:14px 0}
+    .autobox{padding:14px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)}
     .autobox .top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
     .autobox .top strong{font-size:14px}
     .progress{height:10px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;border:1px solid rgba(255,255,255,.05)}
-    .progress > div{height:100%;width:50%;border-radius:inherit;background:linear-gradient(90deg,var(--green),var(--cyan));transition:width .35s ease}
-    .footer-note{margin-top:12px;font-size:12px;color:var(--muted);line-height:1.6}
-    .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(16px);background:rgba(7,12,22,.95);border:1px solid rgba(255,255,255,.1);color:#eaf6ff;padding:12px 14px;border-radius:999px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.22s ease;z-index:10}
+    .progress>div{height:100%;width:50%;border-radius:inherit;background:linear-gradient(90deg,var(--green),var(--cyan));transition:width .4s ease}
+    .footer-note{margin-top:10px;font-size:12px;color:var(--muted);line-height:1.6}
+
+    /* ── AI THINKING OVERLAY ── */
+    .ai-thinking{
+      display:none;position:fixed;inset:0;background:rgba(4,7,19,.88);
+      z-index:40;align-items:center;justify-content:center;flex-direction:column;gap:20px;
+    }
+    .ai-thinking.show{display:flex}
+    .ai-thinking-box{
+      max-width:440px;width:90%;background:rgba(10,15,28,.97);
+      border:1px solid rgba(49,240,160,.22);border-radius:24px;padding:26px;
+      box-shadow:0 0 60px rgba(49,240,160,.08);
+    }
+    .ai-thinking-title{font-size:18px;font-weight:900;color:#e2fff0;margin-bottom:16px}
+    .ai-step{
+      display:flex;align-items:center;gap:12px;padding:10px 0;
+      border-bottom:1px solid rgba(255,255,255,.05);font-size:13px;color:var(--muted);
+      transition:.3s ease;
+    }
+    .ai-step:last-child{border-bottom:none}
+    .ai-step.done{color:#c8ffeb}
+    .ai-step.active{color:#e2fff0}
+    .step-icon{width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:13px;flex:0 0 auto}
+    .step-icon.done{background:rgba(49,240,160,.2);border-color:rgba(49,240,160,.4)}
+    .step-icon.active{background:rgba(100,216,255,.15);border-color:rgba(100,216,255,.4);animation:spin 1s linear infinite}
+    .ai-thinking-bar{margin-top:18px;height:6px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}
+    .ai-thinking-fill{height:100%;width:0%;border-radius:inherit;background:linear-gradient(90deg,var(--green),var(--cyan));transition:width .35s ease}
+
+    /* ── HISTORY ── */
+    .history-panel{margin-top:16px}
+    .history-title{font-size:13px;color:var(--muted);margin-bottom:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+    .history-list{display:flex;flex-direction:column;gap:8px}
+    .history-item{
+      padding:11px 14px;border-radius:14px;background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.07);cursor:pointer;transition:.18s ease;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+    }
+    .history-item:hover{background:rgba(255,255,255,.07);transform:translateX(2px)}
+    .history-item .hi-left{flex:1}
+    .history-item .hi-device{font-size:13px;font-weight:700;margin-bottom:3px}
+    .history-item .hi-vals{font-size:12px;color:var(--muted)}
+    .history-item .hi-score{font-size:18px;font-weight:900;color:#c8ffeb}
+    .history-item .hi-time{font-size:11px;color:var(--muted);margin-top:2px}
+
+    /* ── VARIANCE INDICATOR ── */
+    .variance-tag{
+      display:inline-flex;align-items:center;gap:5px;padding:5px 10px;
+      border-radius:999px;font-size:11px;font-weight:700;
+      background:rgba(100,216,255,.1);border:1px solid rgba(100,216,255,.2);color:#c8f5ff;
+    }
+    .variance-dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:vblink 1.2s ease-in-out infinite}
+    @keyframes vblink{0%,100%{opacity:1}50%{opacity:.3}}
+
+    /* ── COMPARE ── */
+    .compare-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+    .compare-col{padding:10px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}
+    .compare-col .cc-title{font-size:11px;color:var(--muted);margin-bottom:8px;font-weight:700}
+    .compare-col .cc-row{display:flex;justify-content:space-between;font-size:13px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+    .compare-col .cc-row:last-child{border-bottom:none}
+    .diff-up{color:#31f0a0}
+    .diff-dn{color:#ff6b6b}
+
+    /* ── TOAST ── */
+    .toast{
+      position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(16px);
+      background:rgba(7,12,22,.95);border:1px solid rgba(255,255,255,.1);
+      color:#eaf6ff;padding:11px 16px;border-radius:999px;
+      box-shadow:var(--shadow);opacity:0;pointer-events:none;
+      transition:.22s ease;z-index:50;font-size:14px;
+    }
     .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-    .overlay{position:fixed;inset:0;background:rgba(3,7,15,.90);display:flex;align-items:center;justify-content:center;z-index:20;padding:18px}
-    .overlay-panel{max-width:760px;width:100%;border:1px solid var(--line);background:rgba(13,19,36,.92);border-radius:28px;padding:22px;box-shadow:var(--shadow);backdrop-filter:blur(18px)}
-    .overlay-panel h2{margin:0 0 10px;font-size:28px}
-    .overlay-panel p{margin:0 0 16px;color:var(--muted);line-height:1.6}
-    .overlay-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
-    .hidden{display:none !important}
-    /* Detection loading pulse */
-    @keyframes detectPulse{0%,100%{opacity:1}50%{opacity:.4}}
-    .detecting{animation:detectPulse 1.1s ease-in-out infinite}
+
+    /* ── ANIMATIONS ── */
     @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-    @keyframes pulse{0%,100%{filter:drop-shadow(0 0 0 rgba(49,240,160,0))}50%{filter:drop-shadow(0 0 18px rgba(49,240,160,.18))}}
-    @media (max-width: 1040px){
+    @keyframes pulse{0%,100%{filter:drop-shadow(0 0 0 rgba(49,240,160,0))}50%{filter:drop-shadow(0 0 20px rgba(49,240,160,.2))}}
+    @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    @keyframes shimmer{0%{opacity:.5}50%{opacity:1}100%{opacity:.5}}
+    .detecting{animation:shimmer 1.1s ease-in-out infinite}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:1040px){
       .grid{grid-template-columns:1fr}
       .btn-row,.btn-row-3,.stats,.modes,.toggle-row,.mini-stats,.feature-grid,.overlay-grid{grid-template-columns:1fr}
-      .score-number{font-size:42px}
+      .score-number{font-size:44px}
+      .compare-row{grid-template-columns:1fr}
     }
   </style>
 </head>
 <body>
-  <div id="startOverlay" class="overlay">
-    <div class="overlay-panel">
-      <div class="eyebrow">Free Fire Sens AI Ultra</div>
-      <h2>Seu celular vai ser detectado automaticamente</h2>
-      <p>O site tenta reconhecer o aparelho pelo navegador e já começa em automático sem DPI. Você pode abrir a IA quando quiser e escolher o que fica automático e o que fica travado.</p>
-      <div class="overlay-grid">
-        <div class="pill green detecting" id="detectedPhone">Celular: detectando...</div>
-        <div class="pill gold" id="detectedMode">Modo inicial: automático sem DPI</div>
-        <div class="pill cyan" id="detectedHw">Hardware: verificando...</div>
-        <div class="pill cyan">Ajuste por toque</div>
+
+<!-- ═══ START OVERLAY ═══ -->
+<div id="startOverlay" class="overlay">
+  <div class="overlay-panel">
+    <div class="eyebrow">Free Fire Sens AI Ultra v2</div>
+    <h2>IA de sensibilidade com motor generativo real</h2>
+    <p>Cada geração usa um motor de IA com 6 camadas de análise — seed exclusiva por dispositivo + estilo + tempo. Toda sensibilidade criada é única, nunca vai se repetir. Sem API externa.</p>
+    <div class="overlay-grid">
+      <div class="pill green detecting" id="detectedPhone">Celular: detectando...</div>
+      <div class="pill gold" id="detectedMode">Modo: automático sem DPI</div>
+      <div class="pill cyan" id="detectedHw">Hardware: verificando...</div>
+      <div class="pill cyan">Motor IA v2 — 6 camadas</div>
+    </div>
+    <div class="top-actions">
+      <button class="btn-primary" id="openAiBtn">Abrir IA agora</button>
+      <button class="btn-secondary" id="useGuessBtn">Detectar e entrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ AI THINKING ANIMATION ═══ -->
+<div class="ai-thinking" id="aiThinking">
+  <div class="ai-thinking-box">
+    <div class="ai-thinking-title">⚡ IA gerando sensibilidade…</div>
+    <div class="ai-step" id="step1">
+      <div class="step-icon" id="icon1">1</div>
+      <span id="stepTxt1">Analisando perfil do dispositivo</span>
+    </div>
+    <div class="ai-step" id="step2">
+      <div class="step-icon" id="icon2">2</div>
+      <span id="stepTxt2">Mapeando hardware e tier</span>
+    </div>
+    <div class="ai-step" id="step3">
+      <div class="step-icon" id="icon3">3</div>
+      <span id="stepTxt3">Calibrando estilo de jogo</span>
+    </div>
+    <div class="ai-step" id="step4">
+      <div class="step-icon" id="icon4">4</div>
+      <span id="stepTxt4">Aplicando ruído generativo</span>
+    </div>
+    <div class="ai-step" id="step5">
+      <div class="step-icon" id="icon5">5</div>
+      <span id="stepTxt5">Ajuste fino multi-camada</span>
+    </div>
+    <div class="ai-step" id="step6">
+      <div class="step-icon" id="icon6">6</div>
+      <span id="stepTxt6">Construindo config final</span>
+    </div>
+    <div class="ai-thinking-bar"><div class="ai-thinking-fill" id="thinkFill"></div></div>
+  </div>
+</div>
+
+<!-- ═══ MAIN CONTENT ═══ -->
+<div class="wrap">
+  <div class="hero">
+    <div class="topbar">
+      <div>
+        <div class="eyebrow">Free Fire Sens AI Ultra v2</div>
+        <h1>IA generativa — cada preset é único</h1>
       </div>
-      <div class="top-actions" style="margin-top:16px">
-        <button class="btn-primary" id="openAiBtn">Abrir IA</button>
-        <button class="btn-secondary" id="useGuessBtn">Usar detecção automática</button>
-      </div>
+      <div class="pill green" id="statusPill">IA v2 ativa</div>
+    </div>
+    <p class="sub">Motor com 6 camadas: perfil do celular → hardware → estilo → ruído generativo → aprendizado → ajuste fino. Cada clique gera uma configuração nova, nunca repetida. Histórico dos últimos 5 gerados.</p>
+    <div class="top-actions">
+      <button class="btn-primary" id="searchBtn">✦ Gerar nova sensibilidade</button>
+      <button class="btn-secondary" id="openPanelBtn">Mostrar painel</button>
+      <span class="pill" id="currentPhonePill">Celular: não definido</span>
+      <div class="variance-tag"><div class="variance-dot"></div><span id="genCount">0 geradas</span></div>
     </div>
   </div>
 
-  <div class="wrap">
-    <div class="hero">
-      <div class="topbar">
-        <div>
-          <div class="eyebrow">Free Fire Sens AI Ultra</div>
-          <h1>IA de sensibilidade com ajuste automático real</h1>
-        </div>
-        <div class="pill green" id="statusPill">IA ativa</div>
+  <div id="mainArea" class="grid hidden">
+    <!-- ── LEFT PANEL ── -->
+    <section class="card">
+      <div class="section-title">
+        <h2>Painel da IA</h2>
+        <span class="badge" id="modeBadge">Auto sem DPI</span>
       </div>
-      <p class="sub">Coloca o nome do celular e a IA calcula sozinha o DPI, o tamanho do botão de tiro e a pressão do toque. Agora você também escolhe quais partes ficam automáticas e quais ficam travadas, sem sair do modo principal.</p>
-      <div class="top-actions">
-        <button class="btn-primary" id="searchBtn">Procurar sensibilidade</button>
-        <button class="btn-secondary" id="openPanelBtn">Mostrar ajustes</button>
-        <span class="pill" id="currentPhonePill">Celular: não definido</span>
+
+      <div class="field">
+        <label for="device">Nome do celular (mais preciso = melhor IA)</label>
+        <input id="device" type="text" placeholder="Ex.: Redmi 13C 5G, Galaxy A34…" autocomplete="off"/>
       </div>
-    </div>
 
-    <div id="mainArea" class="grid hidden">
-      <section class="card">
-        <div class="section-title">
-          <h2>Painel da IA</h2>
-          <span class="badge" id="modeBadge">Automático sem DPI</span>
+      <div class="field">
+        <label>Modo da IA</label>
+        <div class="toggle-row">
+          <div class="toggle active" data-auto="on">Automático total</div>
+          <div class="toggle" data-auto="off">Manual assistido</div>
         </div>
+        <div class="hint" style="margin-top:7px">No automático a IA aplica os valores diretamente nos sliders.</div>
+      </div>
 
-        <div class="field">
-          <label for="device">Nome do celular</label>
-          <input id="device" type="text" placeholder="Ex.: Redmi 13C 5G" autocomplete="off" />
-        </div>
-
-        <div class="field">
-          <label>Modo da IA</label>
-          <div class="toggle-row">
-            <div class="toggle active" data-auto="on">Automático total</div>
-            <div class="toggle" data-auto="off">Manual assistido</div>
+      <div class="field">
+        <label>O que a IA pode controlar</label>
+        <div class="feature-grid">
+          <div class="feature" data-feature="dpi">
+            <div><strong>DPI</strong><span>Auto ou fixo</span></div>
+            <div class="switch" data-switch="dpi"></div>
           </div>
-          <div class="hint" style="margin-top:8px">O padrão inicial é automático sem DPI. Você liga a DPI só se quiser.</div>
-        </div>
-
-        <div class="field">
-          <label>O que a IA pode controlar</label>
-          <div class="feature-grid">
-            <div class="feature" data-feature="dpi">
-              <div><strong>DPI</strong><span>Auto ou manual</span></div>
-              <div class="switch" data-switch="dpi"></div>
-            </div>
-            <div class="feature" data-feature="button">
-              <div><strong>Botão</strong><span>Tamanho do tiro</span></div>
-              <div class="switch on" data-switch="button"></div>
-            </div>
-            <div class="feature" data-feature="touch">
-              <div><strong>Toque</strong><span>Pressão do dedo</span></div>
-              <div class="switch on" data-switch="touch"></div>
-            </div>
+          <div class="feature" data-feature="button">
+            <div><strong>Botão</strong><span>Tamanho tiro</span></div>
+            <div class="switch on" data-switch="button"></div>
           </div>
-          <div class="feature-grid" style="margin-top:10px">
-            <div class="feature" data-feature="sens">
-              <div><strong>Sensis principais</strong><span>Geral, red, 2x, 4x, AWM</span></div>
-              <div class="switch on" data-switch="sens"></div>
-            </div>
-            <div class="feature" data-feature="free">
-              <div><strong>Mira livre</strong><span>Auto ou travada</span></div>
-              <div class="switch on" data-switch="free"></div>
-            </div>
-            <div class="feature" data-feature="save">
-              <div><strong>Salvar</strong><span>No navegador</span></div>
-              <div class="switch on" data-switch="save"></div>
-            </div>
+          <div class="feature" data-feature="touch">
+            <div><strong>Toque</strong><span>Pressão dedo</span></div>
+            <div class="switch on" data-switch="touch"></div>
           </div>
         </div>
-
-        <div class="field">
-          <label>Estilo de jogo</label>
-          <div class="modes">
-            <div class="mini active" data-style="capa"><strong>Capa</strong><span>Resposta mais agressiva e rápida</span></div>
-            <div class="mini" data-style="equilibrado"><strong>Equilibrado</strong><span>Velocidade com controle estável</span></div>
-            <div class="mini" data-style="controle"><strong>Controle</strong><span>Mais estabilidade e precisão</span></div>
+        <div class="feature-grid" style="margin-top:10px">
+          <div class="feature" data-feature="sens">
+            <div><strong>Sensis</strong><span>Geral/red/2x/4x/AWM</span></div>
+            <div class="switch on" data-switch="sens"></div>
+          </div>
+          <div class="feature" data-feature="free">
+            <div><strong>Mira livre</strong><span>Auto ou travada</span></div>
+            <div class="switch on" data-switch="free"></div>
+          </div>
+          <div class="feature" data-feature="save">
+            <div><strong>Salvar</strong><span>Histórico local</span></div>
+            <div class="switch on" data-switch="save"></div>
           </div>
         </div>
+      </div>
 
+      <div class="field">
+        <label>Estilo de jogo</label>
+        <div class="modes">
+          <div class="mini active" data-style="capa"><strong>🔥 Capa</strong><span>Agressivo e veloz</span></div>
+          <div class="mini" data-style="equilibrado"><strong>⚖️ Equilíbrio</strong><span>Velocidade + controle</span></div>
+          <div class="mini" data-style="controle"><strong>🎯 Controle</strong><span>Precisão máxima</span></div>
+        </div>
+      </div>
+
+      <div class="autobox">
+        <div class="top">
+          <strong>Ajustes manuais</strong>
+          <span class="pill" id="autoState">Auto sem DPI</span>
+        </div>
+        <div class="field">
+          <label for="dpi">DPI</label>
+          <div class="range-box">
+            <div class="range-top"><span>120</span><strong id="dpiVal">240</strong><span>600</span></div>
+            <input id="dpi" type="range" min="120" max="600" step="10" value="240"/>
+          </div>
+        </div>
+        <div class="field">
+          <label for="button">Tamanho do botão de tiro</label>
+          <div class="range-box">
+            <div class="range-top"><span>20%</span><strong id="buttonVal">50%</strong><span>80%</span></div>
+            <input id="button" type="range" min="20" max="80" step="1" value="50"/>
+          </div>
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label for="touch">Toque do dedo</label>
+          <div class="range-box">
+            <div class="range-top"><span>Leve</span><strong id="touchVal">50</strong><span>Forte</span></div>
+            <input id="touch" type="range" min="0" max="100" step="1" value="50"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="glow-line"></div>
+
+      <div class="btn-row">
+        <button class="btn-primary" id="copyBtn">📋 Copiar config</button>
+        <button class="btn-secondary" id="applyBtn">⚡ Gerar agora</button>
+      </div>
+      <div class="btn-row-3" style="margin-top:10px">
+        <button class="btn-tertiary" id="preset1">🔥 Preset capa</button>
+        <button class="btn-tertiary" id="preset2">⚖️ Preset equilíbrio</button>
+        <button class="btn-tertiary" id="preset3">🎯 Preset controle</button>
+      </div>
+      <div style="margin-top:10px">
+        <button class="btn-danger" id="clearHistBtn" style="width:100%">🗑 Limpar histórico</button>
+      </div>
+    </section>
+
+    <!-- ── RIGHT PANEL ── -->
+    <aside class="card">
+      <div class="section-title">
+        <h2>Resultado da IA</h2>
+        <span class="badge">Geração única</span>
+      </div>
+
+      <div class="panel-grid" id="panelGrid">
+        <!-- Score -->
+        <div class="big-score">
+          <div>
+            <div class="eyebrow">Força da config</div>
+            <div class="score-number" id="scoreNum">—</div>
+          </div>
+          <div class="score-text" id="scoreText">Gere uma sensibilidade para começar.</div>
+        </div>
+
+        <!-- Mini stats -->
+        <div class="mini-stats">
+          <div class="mini-stat"><div class="k">DPI alvo</div><div class="v" id="targetDpi">—</div></div>
+          <div class="mini-stat"><div class="k">Botão alvo</div><div class="v" id="targetButton">—</div></div>
+          <div class="mini-stat"><div class="k">Toque alvo</div><div class="v" id="targetTouch">—</div></div>
+        </div>
+
+        <!-- Main sens stats -->
+        <div class="stats">
+          <div class="stat"><div class="k">Geral</div><div class="v" id="outGeneral">—</div></div>
+          <div class="stat"><div class="k">Ponto vermelho</div><div class="v" id="outRed">—</div></div>
+          <div class="stat"><div class="k">2x</div><div class="v" id="out2x">—</div></div>
+          <div class="stat"><div class="k">4x</div><div class="v" id="out4x">—</div></div>
+          <div class="stat"><div class="k">AWM</div><div class="v" id="outAwm">—</div></div>
+          <div class="stat"><div class="k">Mira livre</div><div class="v" id="outFree">—</div></div>
+        </div>
+
+        <!-- Profile & chips -->
+        <div class="card" style="padding:13px;background:rgba(255,255,255,.04)">
+          <div class="section-title" style="margin-bottom:9px">
+            <h2 style="font-size:15px">Leitura da IA</h2>
+            <span class="pill gold" id="profileTag">Aguardando…</span>
+          </div>
+          <div class="chips" id="chips"></div>
+        </div>
+
+        <!-- Stability -->
         <div class="autobox">
           <div class="top">
-            <strong>Entradas e ajustes</strong>
-            <span class="pill" id="autoState">Auto sem DPI</span>
+            <strong>Estabilidade estimada</strong>
+            <span class="pill cyan" id="stabilityTag">—</span>
           </div>
-          <div class="field">
-            <label for="dpi">DPI</label>
-            <div class="range-box">
-              <div class="range-top"><span>Menor</span><strong id="dpiVal">240</strong><span>Maior</span></div>
-              <input id="dpi" type="range" min="120" max="600" step="10" value="240" />
-            </div>
-          </div>
-          <div class="field">
-            <label for="button">Tamanho do botão de tiro</label>
-            <div class="range-box">
-              <div class="range-top"><span>Menor</span><strong id="buttonVal">50%</strong><span>Maior</span></div>
-              <input id="button" type="range" min="20" max="80" step="1" value="50" />
-            </div>
-          </div>
-          <div class="field" style="margin-bottom:0">
-            <label for="touch">Toque do dedo</label>
-            <div class="range-box">
-              <div class="range-top"><span>Leve</span><strong id="touchVal">50</strong><span>Forte</span></div>
-              <input id="touch" type="range" min="0" max="100" step="1" value="50" />
-            </div>
-          </div>
+          <div class="progress"><div id="progressBar" style="width:0%"></div></div>
+          <div class="footer-note" id="stabilityText">Gere uma configuração para ver a análise de estabilidade.</div>
         </div>
 
+        <!-- Full output text -->
+        <div class="output" id="output">Clique em "Gerar nova sensibilidade" para a IA criar uma config exclusiva para o seu dispositivo.</div>
+
+        <!-- Compare last 2 -->
+        <div id="compareBox" style="display:none">
+          <div class="section-title" style="margin-bottom:8px">
+            <h2 style="font-size:14px">Comparar com anterior</h2>
+          </div>
+          <div class="compare-row" id="compareRow"></div>
+        </div>
+
+        <div class="hint">Motor de 6 camadas: device hash → hardware tier → style tuning → ruído generativo → learning bias → fine adjustment. Cada resultado é matematicamente único.</div>
+      </div>
+
+      <!-- History -->
+      <div class="history-panel" id="historyPanel" style="display:none">
         <div class="glow-line"></div>
-
-        <div class="btn-row">
-          <button class="btn-primary" id="copyBtn">Copiar config</button>
-          <button class="btn-secondary" id="applyBtn">Aplicar IA agora</button>
-        </div>
-
-        <div style="margin-top:14px" class="btn-row-3">
-          <button class="btn-tertiary" id="preset1">Preset capa</button>
-          <button class="btn-tertiary" id="preset2">Preset equilíbrio</button>
-          <button class="btn-tertiary" id="preset3">Preset controle</button>
-        </div>
-      </section>
-
-      <aside class="card">
-        <div class="section-title">
-          <h2>Resultado inteligente</h2>
-          <span class="badge">Atualização instantânea</span>
-        </div>
-        <div class="panel-grid">
-          <div class="big-score">
-            <div>
-              <div class="eyebrow">Força do preset</div>
-              <div class="score-number" id="scoreNum">94</div>
-            </div>
-            <div class="score-text" id="scoreText">A IA priorizou capa rápida com estabilidade alta e resposta limpa.</div>
-          </div>
-          <div class="mini-stats">
-            <div class="mini-stat"><div class="k">DPI alvo</div><div class="v" id="targetDpi">—</div></div>
-            <div class="mini-stat"><div class="k">Botão alvo</div><div class="v" id="targetButton">50%</div></div>
-            <div class="mini-stat"><div class="k">Toque alvo</div><div class="v" id="targetTouch">50</div></div>
-          </div>
-          <div class="stats">
-            <div class="stat"><div class="k">Geral</div><div class="v" id="outGeneral">176</div></div>
-            <div class="stat"><div class="k">Ponto vermelho</div><div class="v" id="outRed">160</div></div>
-            <div class="stat"><div class="k">2x</div><div class="v" id="out2x">145</div></div>
-            <div class="stat"><div class="k">4x</div><div class="v" id="out4x">132</div></div>
-            <div class="stat"><div class="k">AWM</div><div class="v" id="outAwm">118</div></div>
-            <div class="stat"><div class="k">Mira livre</div><div class="v" id="outFree">18</div></div>
-          </div>
-          <div class="card" style="padding:14px;background:rgba(255,255,255,.04)">
-            <div class="section-title" style="margin-bottom:10px">
-              <h2 style="font-size:16px">Leitura da IA</h2>
-              <span class="pill gold" id="profileTag">Perfil médio</span>
-            </div>
-            <div class="chips" id="chips"></div>
-          </div>
-          <div class="autobox">
-            <div class="top">
-              <strong>Recomendação de estabilidade</strong>
-              <span class="pill cyan" id="stabilityTag">Alta</span>
-            </div>
-            <div class="progress"><div id="progressBar"></div></div>
-            <div class="footer-note" id="stabilityText">A IA está entregando um ajuste equilibrado entre velocidade de puxada e controle de recuo.</div>
-          </div>
-          <div class="output" id="output"></div>
-          <div class="hint">A lógica é local, começa automático sem DPI e só mexe no que você liberar. O botão de procurar sensibilidade recalcula tudo do zero.</div>
-        </div>
-      </aside>
-    </div>
+        <div class="history-title">⏱ Histórico de gerações</div>
+        <div class="history-list" id="historyList"></div>
+      </div>
+    </aside>
   </div>
+</div>
 
-  <div class="toast" id="toast">Copiado para a área de transferência</div>
+<div class="toast" id="toast">...</div>
 
-  <script>
-    /* ── Helpers ─────────────────────────────────────────────────────────── */
-    const el = (id) => document.getElementById(id);
-    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
-    const round = (v) => Math.round(v);
+<script>
+/* ═══════════════════════════════════════════════════════════════════════
+   FREE FIRE SENS AI ULTRA v2 — Motor Generativo Real (sem API)
+   Arquitetura: 6-layer pipeline | Unique seed per generation
+═══════════════════════════════════════════════════════════════════════ */
 
-    const device    = el('device');
-    const dpi       = el('dpi');
-    const button    = el('button');
-    const touch     = el('touch');
-    const dpiVal    = el('dpiVal');
-    const buttonVal = el('buttonVal');
-    const touchVal  = el('touchVal');
-    const chips     = el('chips');
-    const output    = el('output');
-    const scoreNum  = el('scoreNum');
-    const scoreText = el('scoreText');
-    const modeBadge = el('modeBadge');
-    const autoState = el('autoState');
-    const statusPill= el('statusPill');
-    const profileTag= el('profileTag');
-    const targetDpi = el('targetDpi');
-    const targetButton = el('targetButton');
-    const targetTouch  = el('targetTouch');
-    const progressBar  = el('progressBar');
-    const stabilityText= el('stabilityText');
-    const stabilityTag = el('stabilityTag');
-    const toast     = el('toast');
-    const overlay   = el('startOverlay');
-    const mainArea  = el('mainArea');
+const el = id => document.getElementById(id);
+const clamp = (v,mn,mx) => Math.max(mn,Math.min(mx,v));
+const rnd = v => Math.round(v);
 
-    /* ── State ───────────────────────────────────────────────────────────── */
-    let state = {
-      style: 'capa',
-      auto: true,
-      features: { dpi: false, button: true, touch: true, sens: true, free: true, save: true }
-    };
+/* ── DOM refs ── */
+const device     = el('device');
+const dpi        = el('dpi');
+const btnSz      = el('button');
+const touch      = el('touch');
+const dpiVal     = el('dpiVal');
+const buttonVal  = el('buttonVal');
+const touchVal   = el('touchVal');
+const chips      = el('chips');
+const output     = el('output');
+const scoreNum   = el('scoreNum');
+const scoreText  = el('scoreText');
+const modeBadge  = el('modeBadge');
+const autoState  = el('autoState');
+const statusPill = el('statusPill');
+const profileTag = el('profileTag');
+const targetDpi  = el('targetDpi');
+const targetButton=el('targetButton');
+const targetTouch= el('targetTouch');
+const progressBar= el('progressBar');
+const stabilityText=el('stabilityText');
+const stabilityTag =el('stabilityTag');
+const toast      = el('toast');
+const overlay    = el('startOverlay');
+const mainArea   = el('mainArea');
+const genCountEl = el('genCount');
+const aiThinking = el('aiThinking');
+const thinkFill  = el('thinkFill');
 
-    // Hardware hints populated by async detection
-    let hwHints = { ram: 0, cores: 0, screenW: screen.width, screenH: screen.height };
+/* ── App state ── */
+let state = {
+  style: 'capa',
+  auto: true,
+  features: { dpi:false, button:true, touch:true, sens:true, free:true, save:true },
+  totalGens: 0,
+  lastConfig: null,
+  prevConfig: null,
+};
+let hwHints = { ram:0, cores:0, screenW:screen.width, screenH:screen.height };
 
-    /* ── Learning ────────────────────────────────────────────────────────── */
-    const learningKey = 'ff-sens-ai-learning';
-    const defaultLearning = {
-      global:  { dpi: 0, button: 0, touch: 0, sens: 0 },
+/* ══════════════════════════════════════════════════════════
+   LAYER 1 — PSEUDO-RANDOM GENERATOR (Seeded LCG + Xorshift)
+   Produces deterministic-per-seed but unique noise each gen
+══════════════════════════════════════════════════════════ */
+class SeededRNG {
+  constructor(seed) {
+    this.s = (seed >>> 0) || 1;
+  }
+  next() {
+    // Xorshift32
+    let x = this.s;
+    x ^= x << 13; x ^= x >>> 17; x ^= x << 5;
+    this.s = x >>> 0;
+    return (this.s >>> 0) / 4294967296;
+  }
+  // Gaussian noise (Box-Muller)
+  gaussian(mean=0, std=1) {
+    const u1 = this.next() || 1e-10;
+    const u2 = this.next();
+    const z  = Math.sqrt(-2*Math.log(u1)) * Math.cos(2*Math.PI*u2);
+    return mean + z*std;
+  }
+  // Int in range [min, max]
+  int(min, max) {
+    return min + Math.floor(this.next() * (max - min + 1));
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   LAYER 2 — SEED GENERATION
+   Unique per: device name + style + timestamp + gen count
+══════════════════════════════════════════════════════════ */
+function buildSeed(deviceName, style, genIndex) {
+  const ts   = Date.now();
+  const str  = `${(deviceName||'generic').toLowerCase()}|${style}|${genIndex}|${ts}`;
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = (h * 16777619) >>> 0;
+  }
+  // Mix with current ms for extra uniqueness
+  h ^= (ts & 0xFFFF) * 31337;
+  return h >>> 0;
+}
+
+/* ══════════════════════════════════════════════════════════
+   LAYER 3 — DEVICE PROFILE DATABASE
+══════════════════════════════════════════════════════════ */
+const DEVICE_DB = [
+  { tier:'alto', keys:[
+    's24 ultra','s24+','s24','s23 ultra','s23+','s23','s22 ultra','s22+','s22',
+    's21 ultra','s21+','s21','note 20 ultra','note 20',
+    'sm-s928','sm-s926','sm-s921','sm-s918','sm-s916','sm-s911',
+    'sm-s908','sm-s906','sm-s901','sm-g998','sm-g996','sm-g991',
+    'galaxy a55','galaxy a54','sm-a556','sm-a546',
+    'poco f6 pro','poco f5 pro','poco f4 gt','poco f3','poco x6 pro','poco f6','poco f5',
+    'poco x5 pro','poco x4 pro',
+    'redmi note 13 pro+','redmi note 13 pro','redmi note 14 pro+','redmi note 14 pro',
+    'redmi k70','redmi k60','redmi k50',
+    'xiaomi 14','xiaomi 13','xiaomi 12','mi 12','mi 11','mi 10',
+    'oneplus 12','oneplus 11','oneplus 10 pro','oneplus 9 pro','oneplus 9','oneplus 10t',
+    'rog phone 8','rog phone 7','rog phone 6','rog phone 5',
+    'redmagic 9','redmagic 8','redmagic 7',
+    'realme gt 5','realme gt 3','realme gt 2 pro','realme gt neo 5','realme gt neo 3',
+    'iphone',
+  ]},
+  { tier:'médio', keys:[
+    'galaxy a34','galaxy a33','galaxy a32','galaxy a25','galaxy a24','galaxy a23',
+    'galaxy a15 5g','galaxy a16','galaxy a15',
+    'sm-a346','sm-a336','sm-a326','sm-a256','sm-a246',
+    'galaxy m34','galaxy m33','galaxy m54','galaxy m53','galaxy m23','galaxy m14',
+    'redmi note 12','redmi note 11','redmi note 10','redmi note 13 4g',
+    'redmi 12 5g','redmi 12','redmi 11','redmi 10',
+    'poco m6 pro','poco m5s','poco m5','poco x4','poco x3','poco m4 pro','poco m4',
+    'poco c65','poco c55',
+    'moto g84','moto g73','moto g54','moto g34 5g','moto g53 5g','moto g53','moto g32',
+    'moto g52','moto g82','moto g72','moto g22','moto g31',
+    'realme 11','realme 10','realme 9','realme 9 pro','realme 8 pro','realme 8',
+    'realme narzo 60','realme narzo 50','realme narzo 30',
+    'realme c67','realme c55','realme c51',
+    'infinix gt 20','infinix gt 10','infinix note 30','infinix hot 40 pro','infinix zero',
+    'vivo y78','vivo y76','vivo y56','vivo v25',
+    'oppo a78','oppo a77','oppo a57',
+    'rmx3491','rmx3501','rmx3710','rmx3085','rmx3063','rmx3311','rmx3461',
+    'xiaomi redmi note 12','redmi a3 pro',
+  ]},
+  { tier:'baixo', keys:[
+    'redmi 13c','redmi 12c','redmi 10c','redmi 10a','redmi 9a','redmi 9c','redmi a1','redmi a2','redmi a3',
+    'galaxy a03s','galaxy a03','galaxy a04s','galaxy a04','galaxy a05s','galaxy a05',
+    'galaxy a12','galaxy a13','galaxy a14 4g',
+    'sm-a035','sm-a042','sm-a047','sm-a125','sm-a135','sm-a145',
+    'moto e40','moto e32','moto e22','moto e20','moto e13','moto e30',
+    'realme c30','realme c31','realme c33','realme c35','realme c25','realme c21',
+    'rmx3261','rmx3511','rmx3241','rmx3151',
+    'infinix hot 30','infinix hot 20','infinix hot 12','infinix hot 10',
+    'infinix smart 7','infinix smart 6',
+    'tecno pop 7','tecno pop 6','tecno pop 5',
+    'tecno spark 20','tecno spark 10','tecno spark 9',
+    'itel a70','itel a60','itel p40','itel s23','itel a58','itel a56',
+    'poco c40','poco c31','poco c65',
+    'vivo y16','vivo y15s','vivo y02',
+    'oppo a17','oppo a16','oppo a15',
+  ]}
+];
+
+function matchDeviceDB(name) {
+  const n = (name||'').toLowerCase().trim();
+  if (!n) return null;
+  for (const entry of DEVICE_DB) {
+    if (entry.keys.some(k => n.includes(k))) {
+      if (entry.tier==='alto')  return { tier:'alto',  base:1.12, label:'Celular flagship detectado',     color:'green' };
+      if (entry.tier==='médio') return { tier:'médio', base:1.00, label:'Celular intermediário detectado',color:'gold'  };
+                                return { tier:'baixo', base:0.92, label:'Celular de entrada detectado',   color:'cyan'  };
+    }
+  }
+  return null;
+}
+
+function profileFromHW(ram, cores, screenW, screenH) {
+  const px = Math.max(screenW||0, screenH||0);
+  let sc = 0;
+  if (ram>=8) sc+=3; else if(ram>=4) sc+=2; else if(ram>=3) sc+=1;
+  if (cores>=8) sc+=2; else if(cores>=6) sc+=1;
+  if (px>=2400) sc+=2; else if(px>=1920) sc+=1; else if(px<1280) sc-=1;
+  if (sc>=5) return { tier:'alto',  base:1.12, label:'Hardware avançado detectado',     color:'green' };
+  if (sc>=2) return { tier:'médio', base:1.00, label:'Hardware intermediário detectado',color:'gold'  };
+             return { tier:'baixo', base:0.92, label:'Hardware de entrada detectado',   color:'cyan'  };
+}
+
+function profileFromDevice(name) {
+  const db = matchDeviceDB(name);
+  if (db) return db;
+  const h = hwHints;
+  if (h && (h.ram>0||h.cores>0)) return profileFromHW(h.ram, h.cores, h.screenW, h.screenH);
+  return { tier:'médio', base:0.97, label:'Perfil genérico aplicado', color:'gold' };
+}
+
+/* ══════════════════════════════════════════════════════════
+   LAYER 4 — STYLE COEFFICIENTS
+══════════════════════════════════════════════════════════ */
+const STYLE = {
+  capa:       { sFactor:1.12, dpiBase:265, dpiBias:22,  btnBias:-4, tchBias:-7, sensBase:{ geral:182, red:172, two:158, four:143, awm:128 } },
+  equilibrado:{ sFactor:1.00, dpiBase:240, dpiBias:6,   btnBias:0,  tchBias:0,  sensBase:{ geral:172, red:162, two:147, four:133, awm:118 } },
+  controle:   { sFactor:0.91, dpiBase:210, dpiBias:-10, btnBias:7,  tchBias:9,  sensBase:{ geral:152, red:142, two:132, four:122, awm:107 } },
+};
+
+/* ══════════════════════════════════════════════════════════
+   LAYER 5 — LEARNING SYSTEM
+══════════════════════════════════════════════════════════ */
+const LK = 'ff-sens-ai-v2-learning';
+const defLearn = {
+  global:  { dpi:0, btn:0, tch:0, sens:0 },
+  byStyle: { capa:{dpi:0,btn:0,tch:0,sens:0}, equilibrado:{dpi:0,btn:0,tch:0,sens:0}, controle:{dpi:0,btn:0,tch:0,sens:0} },
+  byTier:  { alto:{dpi:0,btn:0,tch:0,sens:0}, médio:{dpi:0,btn:0,tch:0,sens:0}, baixo:{dpi:0,btn:0,tch:0,sens:0} },
+  samples:0
+};
+function loadLearn() {
+  try {
+    const r = localStorage.getItem(LK);
+    if (!r) return JSON.parse(JSON.stringify(defLearn));
+    const p = JSON.parse(r);
+    return {
+      global:  {...defLearn.global,...(p.global||{})},
       byStyle: {
-        capa:        { dpi: 0, button: 0, touch: 0, sens: 0 },
-        equilibrado: { dpi: 0, button: 0, touch: 0, sens: 0 },
-        controle:    { dpi: 0, button: 0, touch: 0, sens: 0 }
+        capa:        {...defLearn.byStyle.capa,...(p.byStyle?.capa||{})},
+        equilibrado: {...defLearn.byStyle.equilibrado,...(p.byStyle?.equilibrado||{})},
+        controle:    {...defLearn.byStyle.controle,...(p.byStyle?.controle||{})}
       },
       byTier: {
-        alto:  { dpi: 0, button: 0, touch: 0, sens: 0 },
-        médio: { dpi: 0, button: 0, touch: 0, sens: 0 },
-        baixo: { dpi: 0, button: 0, touch: 0, sens: 0 }
+        alto:  {...defLearn.byTier.alto,...(p.byTier?.alto||{})},
+        médio: {...defLearn.byTier['médio'],...(p.byTier?.['médio']||{})},
+        baixo: {...defLearn.byTier.baixo,...(p.byTier?.baixo||{})}
       },
-      samples: 0
+      samples: Number(p.samples||0)
     };
+  } catch { return JSON.parse(JSON.stringify(defLearn)); }
+}
+let learn = loadLearn();
+function saveLearn() { try { localStorage.setItem(LK, JSON.stringify(learn)); }catch{} }
+function getLearningBias(tier, style) {
+  const g = learn.global;
+  const s = learn.byStyle[style]||defLearn.byStyle[style];
+  const t = learn.byTier[tier]||defLearn.byTier['médio'];
+  return { dpi: g.dpi+s.dpi+t.dpi, btn: g.btn+s.btn+t.btn, tch: g.tch+s.tch+t.tch, sens: g.sens+s.sens+t.sens };
+}
+function nudgeLearn(tier, style, current, target) {
+  const lr = 0.15, cb = v => clamp(v,-14,14);
+  const dd = (current.dpi-target.dpi)/10;
+  const db = current.btn-target.btn;
+  const dt = current.tch-target.tch;
+  learn.global.dpi = cb(learn.global.dpi + dd*lr*0.5);
+  learn.global.btn = cb(learn.global.btn + db*lr*0.5);
+  learn.global.tch = cb(learn.global.tch + dt*lr*0.5);
+  learn.samples = Math.min(9999, learn.samples+1);
+  saveLearn();
+}
 
-    function loadLearning() {
-      try {
-        const raw = localStorage.getItem(learningKey);
-        if (!raw) return structuredClone(defaultLearning);
-        const p = JSON.parse(raw);
-        return {
-          global:  { ...defaultLearning.global,  ...(p.global  || {}) },
-          byStyle: {
-            capa:        { ...defaultLearning.byStyle.capa,        ...(p.byStyle?.capa        || {}) },
-            equilibrado: { ...defaultLearning.byStyle.equilibrado, ...(p.byStyle?.equilibrado || {}) },
-            controle:    { ...defaultLearning.byStyle.controle,    ...(p.byStyle?.controle    || {}) }
-          },
-          byTier: {
-            alto:  { ...defaultLearning.byTier.alto,  ...(p.byTier?.alto  || {}) },
-            médio: { ...defaultLearning.byTier.médio, ...(p.byTier?.médio || {}) },
-            baixo: { ...defaultLearning.byTier.baixo, ...(p.byTier?.baixo || {}) }
-          },
-          samples: Number(p.samples || 0)
-        };
-      } catch { return structuredClone(defaultLearning); }
+/* ══════════════════════════════════════════════════════════
+   LAYER 6 — MAIN AI ENGINE
+   Generates a fully unique config using all 5 previous layers
+══════════════════════════════════════════════════════════ */
+function generateConfig(animated=false) {
+  state.totalGens++;
+  genCountEl.textContent = `${state.totalGens} gerada${state.totalGens!==1?'s':''}`;
+
+  const seed    = buildSeed(device.value, state.style, state.totalGens);
+  const rng     = new SeededRNG(seed);
+  const profile = profileFromDevice(device.value);
+  const sty     = STYLE[state.style];
+  const bias    = getLearningBias(profile.tier, state.style);
+
+  // ── Tier multipliers ──
+  const tierM  = profile.tier==='alto' ? 1.10 : profile.tier==='médio' ? 1.00 : 0.90;
+  const tierDpiBias   = profile.tier==='alto' ? 18 : profile.tier==='médio' ? 0 : -16;
+  const tierBtnBias   = profile.tier==='alto' ? -2 : profile.tier==='médio' ? 0 :  4;
+  const tierTchBias   = profile.tier==='alto' ? -2 : profile.tier==='médio' ? 0 :  5;
+
+  // ── Generative noise (each gen unique) ──
+  // Different noise for each parameter
+  const noiseScaleDpi = 12;
+  const noiseDpi    = rng.gaussian(0, noiseScaleDpi);
+  const noiseBtn    = rng.gaussian(0, 2.5);
+  const noiseTch    = rng.gaussian(0, 3.0);
+  const noiseGeral  = rng.gaussian(0, 4.5);
+  const noiseRed    = rng.gaussian(0, 4.0);
+  const noiseTwo    = rng.gaussian(0, 3.5);
+  const noiseFour   = rng.gaussian(0, 3.0);
+  const noiseAwm    = rng.gaussian(0, 3.0);
+  const noiseFree   = rng.gaussian(0, 1.2);
+
+  // ── Base targets ──
+  const dpiTarget = clamp(
+    sty.dpiBase + sty.dpiBias + tierDpiBias + bias.dpi + noiseDpi,
+    130, 560
+  );
+  const btnTarget = clamp(
+    50 + sty.btnBias + tierBtnBias + bias.btn + noiseBtn,
+    20, 78
+  );
+  const tchTarget = clamp(
+    50 + sty.tchBias + tierTchBias + bias.tch + noiseTch,
+    8, 92
+  );
+
+  // ── Sensitivity values ──
+  const btnInfl = (btnTarget - 50) / 100;
+  const tchInfl = (tchTarget - 50) / 100;
+
+  const geral = clamp(rnd(sty.sensBase.geral * tierM - btnInfl*20 - tchInfl*10 + bias.sens + noiseGeral), 118,200);
+  const red   = clamp(rnd(sty.sensBase.red   * tierM - btnInfl*18 - tchInfl* 8 + bias.sens + noiseRed),  108,200);
+  const two   = clamp(rnd(sty.sensBase.two   * tierM - btnInfl*15 - tchInfl* 7 + bias.sens + noiseTwo),   98,200);
+  const four  = clamp(rnd(sty.sensBase.four  * tierM - btnInfl*12 - tchInfl* 6 + bias.sens + noiseFour),  88,190);
+  const awm   = clamp(rnd(sty.sensBase.awm   * tierM - btnInfl*10 - tchInfl* 5 + bias.sens + noiseAwm),   78,180);
+  const free  = clamp(rnd(
+    (state.style==='capa' ? 20 : state.style==='controle' ? 14 : 17) +
+    (profile.tier==='alto' ? 1 : profile.tier==='baixo' ? -1 : 0) + noiseFree
+  ), 10, 30);
+
+  // ── Score ──
+  const b = btnTarget, t = tchTarget;
+  const score = clamp(rnd(
+    68 +
+    (state.style==='capa' ? 15 : state.style==='equilibrado' ? 10 : 6) +
+    (state.auto ? 12 : 4) +
+    (profile.tier==='alto' ? 6 : profile.tier==='baixo' ? 0 : 3) +
+    (b>=44&&b<=58 ? 4 : 0) +
+    (t>=34&&t<=62 ? 4 : 0) +
+    Math.abs(rng.gaussian(0, 2)) // tiny score variance
+  ), 60, 100);
+
+  // ── Apply to sliders if auto ──
+  if (state.auto) {
+    if (state.features.dpi)    { dpi.value    = rnd(dpiTarget); }
+    if (state.features.button) { btnSz.value  = rnd(btnTarget); }
+    if (state.features.touch)  { touch.value  = rnd(tchTarget); }
+  }
+
+  const config = {
+    seed, profile, score,
+    dpiTarget: rnd(dpiTarget),
+    btnTarget: rnd(btnTarget),
+    tchTarget: rnd(tchTarget),
+    geral, red, two, four, awm, free,
+    style: state.style,
+    device: device.value || 'Não informado',
+    timestamp: Date.now(),
+    genIndex: state.totalGens,
+    explanation: buildExplanation(profile, score, seed),
+  };
+
+  // ── Save to history ──
+  if (state.features.save) saveToHistory(config);
+
+  return config;
+}
+
+function buildExplanation(profile, score, seed) {
+  const styleMap = { capa:'capa rápida agressiva', equilibrado:'equilíbrio velocidade-controle', controle:'controle fino de precisão' };
+  const scoreDesc = score >= 90 ? 'excelente' : score >= 80 ? 'muito boa' : score >= 70 ? 'boa' : 'padrão';
+  return `${profile.label}. Prioridade: ${styleMap[state.style]}. Config ${scoreDesc} (${score}pts). Seed #${(seed>>>0).toString(16).toUpperCase()}.`;
+}
+
+/* ══════════════════════════════════════════════════════════
+   HISTORY SYSTEM
+══════════════════════════════════════════════════════════ */
+const HIST_KEY = 'ff-sens-ai-v2-hist';
+function loadHistory() {
+  try { return JSON.parse(localStorage.getItem(HIST_KEY)||'[]'); }
+  catch { return []; }
+}
+function saveToHistory(cfg) {
+  try {
+    let h = loadHistory();
+    h.unshift(cfg);
+    h = h.slice(0,5); // keep last 5
+    localStorage.setItem(HIST_KEY, JSON.stringify(h));
+  } catch {}
+}
+function renderHistory() {
+  const h = loadHistory();
+  const panel = el('historyPanel');
+  const list  = el('historyList');
+  if (!h.length) { panel.style.display='none'; return; }
+  panel.style.display='block';
+  list.innerHTML = '';
+  h.forEach((cfg, i) => {
+    const t = new Date(cfg.timestamp);
+    const timeStr = `${t.getHours().toString().padStart(2,'0')}:${t.getMinutes().toString().padStart(2,'0')}`;
+    const item = document.createElement('div');
+    item.className = 'history-item';
+    item.innerHTML = `
+      <div class="hi-left">
+        <div class="hi-device">${cfg.device} — ${cfg.style}</div>
+        <div class="hi-vals">G:${cfg.geral} | R:${cfg.red} | 2x:${cfg.two} | 4x:${cfg.four} | AWM:${cfg.awm}</div>
+        <div class="hi-time">${i===0?'Mais recente':timeStr} · Gen #${cfg.genIndex}</div>
+      </div>
+      <div class="hi-score">${cfg.score}</div>
+    `;
+    item.addEventListener('click', () => restoreConfig(cfg));
+    list.appendChild(item);
+  });
+}
+
+function restoreConfig(cfg) {
+  displayConfig(cfg);
+  toastMsg(`Config #${cfg.genIndex} restaurada`);
+}
+
+/* ══════════════════════════════════════════════════════════
+   COMPARE (last 2 configs)
+══════════════════════════════════════════════════════════ */
+function renderCompare(curr, prev) {
+  const box = el('compareBox');
+  const row = el('compareRow');
+  if (!prev) { box.style.display='none'; return; }
+  box.style.display='block';
+  const fields = [
+    ['Geral',   curr.geral, prev.geral],
+    ['Red',     curr.red,   prev.red],
+    ['2x',      curr.two,   prev.two],
+    ['4x',      curr.four,  prev.four],
+    ['AWM',     curr.awm,   prev.awm],
+    ['Score',   curr.score, prev.score],
+  ];
+  const mkCol = (cfg, label) => `
+    <div class="compare-col">
+      <div class="cc-title">${label}</div>
+      ${fields.map(([k,a,b]) => {
+        const val   = (label==='Atual') ? a : b;
+        const other = (label==='Atual') ? b : a;
+        const diff  = val - other;
+        const cls   = diff>0 ? 'diff-up' : diff<0 ? 'diff-dn' : '';
+        const sign  = diff>0 ? '+' : '';
+        return `<div class="cc-row"><span>${k}</span><span class="${cls}">${val} <small>${diff!==0?sign+diff:''}</small></span></div>`;
+      }).join('')}
+    </div>
+  `;
+  row.innerHTML = mkCol(curr,'Atual') + mkCol(prev,'Anterior');
+}
+
+/* ══════════════════════════════════════════════════════════
+   DISPLAY CONFIG
+══════════════════════════════════════════════════════════ */
+function displayConfig(cfg) {
+  // Update slider displays
+  dpiVal.textContent    = dpi.value;
+  buttonVal.textContent = `${btnSz.value}%`;
+  touchVal.textContent  = touch.value;
+
+  // Mini stats
+  targetDpi.textContent    = state.features.dpi    ? cfg.dpiTarget : '—';
+  targetButton.textContent = state.features.button  ? `${cfg.btnTarget}%` : '—';
+  targetTouch.textContent  = state.features.touch   ? cfg.tchTarget : '—';
+
+  // Main sens
+  el('outGeneral').textContent = state.features.sens ? cfg.geral : '—';
+  el('outRed').textContent     = state.features.sens ? cfg.red   : '—';
+  el('out2x').textContent      = state.features.sens ? cfg.two   : '—';
+  el('out4x').textContent      = state.features.sens ? cfg.four  : '—';
+  el('outAwm').textContent     = state.features.sens ? cfg.awm   : '—';
+  el('outFree').textContent    = state.features.free ? cfg.free  : '—';
+
+  // Score
+  scoreNum.textContent  = cfg.score;
+  scoreText.textContent = cfg.explanation;
+
+  // Profile tag
+  profileTag.textContent = cfg.profile.label;
+  profileTag.className   = `pill ${cfg.profile.color}`;
+
+  // Stability
+  const stab = clamp(
+    100 - Math.abs(Number(btnSz.value) - cfg.btnTarget)*2 - Math.abs(Number(touch.value) - cfg.tchTarget)*1.3,
+    30, 100
+  );
+  progressBar.style.width   = `${stab}%`;
+  stabilityTag.textContent  = stab>=85 ? 'Muito Alta' : stab>=70 ? 'Alta' : stab>=55 ? 'Média' : 'Baixa';
+  stabilityText.textContent = stab>=85
+    ? 'Estabilidade excepcional — config otimizada para este dispositivo.'
+    : stab>=70
+    ? 'Boa estabilidade — equilíbrio entre velocidade e controle de recuo.'
+    : 'Estabilidade moderada — ajuste manual pode melhorar o resultado.';
+
+  // Chips
+  chips.innerHTML = '';
+  const tags = [
+    `Tier: ${cfg.profile.tier}`,
+    `Estilo: ${cfg.style}`,
+    `Score: ${cfg.score}`,
+    `Seed: ${(cfg.seed>>>0).toString(16).toUpperCase()}`,
+    `Gen #${cfg.genIndex}`,
+    `Aprendizados: ${learn.samples}`,
+  ];
+  tags.forEach(text => {
+    const c = document.createElement('div');
+    c.className='chip'; c.textContent=text; chips.appendChild(c);
+  });
+
+  // Text output
+  output.textContent = [
+    `━━ SENSIBILIDADE IA v2 ━━`,
+    `Dispositivo : ${cfg.device}`,
+    `Tier        : ${cfg.profile.tier}`,
+    `Estilo      : ${cfg.style}`,
+    `Modo IA     : ${state.auto ? 'Automático' : 'Manual assistido'}`,
+    ``,
+    `━━ SLIDERS ━━`,
+    `DPI         : ${state.features.dpi    ? cfg.dpiTarget : 'travado'}`,
+    `Botão tiro  : ${state.features.button ? cfg.btnTarget+'%' : 'travado'}`,
+    `Toque       : ${state.features.touch  ? cfg.tchTarget : 'travado'}`,
+    ``,
+    `━━ SENSIBILIDADES ━━`,
+    `Geral       : ${state.features.sens ? cfg.geral : 'travado'}`,
+    `Ponto verm. : ${state.features.sens ? cfg.red   : 'travado'}`,
+    `Mira 2x     : ${state.features.sens ? cfg.two   : 'travado'}`,
+    `Mira 4x     : ${state.features.sens ? cfg.four  : 'travado'}`,
+    `AWM         : ${state.features.sens ? cfg.awm   : 'travado'}`,
+    `Mira livre  : ${state.features.free ? cfg.free  : 'travado'}`,
+    ``,
+    `━━ META ━━`,
+    `Score       : ${cfg.score}/100`,
+    `Estabilidade: ${Math.round(stab)}%`,
+    `Seed        : #${(cfg.seed>>>0).toString(16).toUpperCase()}`,
+    `Geração     : #${cfg.genIndex}`,
+  ].join('\n');
+
+  renderCompare(cfg, state.prevConfig);
+  renderHistory();
+}
+
+/* ══════════════════════════════════════════════════════════
+   ANIMATED AI GENERATION
+══════════════════════════════════════════════════════════ */
+const STEPS = [
+  [1,'Analisando perfil do dispositivo…'],
+  [2,'Mapeando hardware e classificando tier…'],
+  [3,'Calibrando coeficientes de estilo…'],
+  [4,'Aplicando ruído generativo (seed única)…'],
+  [5,'Calculando bias de aprendizado…'],
+  [6,'Construindo configuração final…'],
+];
+
+function runAnimatedGeneration() {
+  aiThinking.classList.add('show');
+  STEPS.forEach(([i]) => {
+    el(`step${i}`).className = 'ai-step';
+    el(`icon${i}`).className = 'step-icon';
+  });
+  thinkFill.style.width = '0%';
+
+  let step = 0;
+  const delay = 260;
+
+  function nextStep() {
+    if (step > 0) {
+      const prev = STEPS[step-1][0];
+      el(`step${prev}`).classList.add('done');
+      const ic = el(`icon${prev}`);
+      ic.className = 'step-icon done'; ic.textContent = '✓';
     }
-
-    let learning = loadLearning();
-
-    function saveLearning() {
-      try { localStorage.setItem(learningKey, JSON.stringify(learning)); } catch {}
+    if (step >= STEPS.length) {
+      thinkFill.style.width = '100%';
+      setTimeout(() => {
+        aiThinking.classList.remove('show');
+        const cfg = generateConfig();
+        state.prevConfig = state.lastConfig;
+        state.lastConfig = cfg;
+        displayConfig(cfg);
+        syncUI();
+        toastMsg(`✦ Sensibilidade #${state.totalGens} gerada!`);
+      }, 200);
+      return;
     }
+    const [idx, txt] = STEPS[step];
+    el(`step${idx}`).classList.add('active');
+    el(`icon${idx}`).className = 'step-icon active';
+    el(`stepTxt${idx}`).textContent = txt;
+    thinkFill.style.width = `${((step+1)/STEPS.length)*100}%`;
+    step++;
+    setTimeout(nextStep, delay + Math.random()*80);
+  }
+  nextStep();
+}
 
-    /* ── Toast ───────────────────────────────────────────────────────────── */
-    function toastMsg(msg) {
-      toast.textContent = msg;
-      toast.classList.add('show');
-      clearTimeout(window.__toastTimer);
-      window.__toastTimer = setTimeout(() => toast.classList.remove('show'), 1500);
-    }
+/* ══════════════════════════════════════════════════════════
+   DEVICE DETECTION
+══════════════════════════════════════════════════════════ */
+const SM_MAP = {
+  'SM-A546':'Samsung Galaxy A54 5G','SM-A556':'Samsung Galaxy A55 5G',
+  'SM-A346':'Samsung Galaxy A34',   'SM-A336':'Samsung Galaxy A33 5G',
+  'SM-A325':'Samsung Galaxy A32',   'SM-A256':'Samsung Galaxy A25 5G',
+  'SM-A246':'Samsung Galaxy A24',   'SM-A235':'Samsung Galaxy A23',
+  'SM-A156':'Samsung Galaxy A15 5G','SM-A145':'Samsung Galaxy A14 5G',
+  'SM-A135':'Samsung Galaxy A13',   'SM-A125':'Samsung Galaxy A12',
+  'SM-A055':'Samsung Galaxy A05s',  'SM-A047':'Samsung Galaxy A04s',
+  'SM-A035':'Samsung Galaxy A03s',  'SM-M346':'Samsung Galaxy M34 5G',
+  'SM-S921':'Samsung Galaxy S24',   'SM-S926':'Samsung Galaxy S24+',
+  'SM-S928':'Samsung Galaxy S24 Ultra',
+};
+const RMX_MAP = {
+  'RMX3491':'Realme 9 Pro','RMX3501':'Realme 9','RMX3261':'Realme C35',
+  'RMX3085':'Realme 8 Pro','RMX3063':'Realme 8','RMX3311':'Realme Narzo 50',
+  'RMX3710':'Realme 11',   'RMX3700':'Realme 11 Pro','RMX3764':'Realme C67',
+  'RMX3151':'Realme C21',  'RMX3241':'Realme C31','RMX3511':'Realme C33',
+  'RMX3630':'Realme C55',  'RMX3834':'Realme C53','RMX3031':'Realme 8i',
+  'RMX3461':'Realme 10',   'RMX3760':'Realme 11x 5G',
+};
 
-    /* ── Device Detection (async, multi-strategy) ────────────────────────── */
-
-    // Comprehensive device database - returns tier on match
-    const DEVICE_DB = [
-      // ── ALTO (flagship / high-end) ────────────────────────────────────────
-      { tier: 'alto', keys: [
-        // Samsung flagships
-        's24 ultra','s24+','s24','s23 ultra','s23+','s23','s22 ultra','s22+','s22',
-        's21 ultra','s21+','s21','note 20 ultra','note 20',
-        'sm-s928','sm-s926','sm-s921','sm-s918','sm-s916','sm-s911',
-        'sm-s908','sm-s906','sm-s901','sm-g998','sm-g996','sm-g991',
-        // Samsung Galaxy A high-end
-        'galaxy a55','galaxy a54','sm-a556','sm-a546',
-        // POCO high-end
-        'poco f6 pro','poco f5 pro','poco f4 gt','poco f3','poco x6 pro','poco f6','poco f5',
-        // Redmi/Xiaomi high-end
-        'redmi note 13 pro+','redmi note 13 pro','redmi note 14 pro+','redmi note 14 pro',
-        'redmi k70','redmi k60','redmi k50',
-        'xiaomi 14','xiaomi 13','xiaomi 12','mi 12','mi 11','mi 10',
-        // OnePlus
-        'oneplus 12','oneplus 11','oneplus 10 pro','oneplus 9 pro','oneplus 9','oneplus 10t',
-        // ROG / RedMagic
-        'rog phone 8','rog phone 7','rog phone 6','rog phone 5',
-        'redmagic 9','redmagic 8','redmagic 7',
-        // Realme high-end
-        'realme gt 5','realme gt 3','realme gt 2 pro','realme gt neo 5','realme gt neo 3',
-        // iPhone (if someone types)
-        'iphone',
-      ]},
-      // ── MÉDIO ─────────────────────────────────────────────────────────────
-      { tier: 'médio', keys: [
-        // Samsung A mid
-        'galaxy a34','galaxy a33','galaxy a32','galaxy a25','galaxy a24','galaxy a23','galaxy a22',
-        'galaxy a15 5g','galaxy a16','galaxy a15',
-        'sm-a346','sm-a336','sm-a326','sm-a256','sm-a246',
-        'galaxy m34','galaxy m33','galaxy m54','galaxy m53','galaxy m23','galaxy m14',
-        // Redmi mid
-        'redmi note 12','redmi note 11','redmi note 10','redmi note 13 4g',
-        'redmi 12 5g','redmi 12','redmi 11','redmi 10',
-        // POCO mid
-        'poco m6 pro','poco m5s','poco m5','poco x4 pro','poco x4','poco x3','poco m4 pro','poco m4',
-        'poco c65','poco c55',
-        // Moto mid
-        'moto g84','moto g73','moto g54','moto g34 5g','moto g53 5g','moto g53','moto g32',
-        'moto g52','moto g82','moto g stylus','moto g72','moto g22','moto g31',
-        // Realme mid
-        'realme 11','realme 10','realme 9','realme 9 pro','realme 8 pro','realme 8',
-        'realme narzo 60','realme narzo 50','realme narzo 30',
-        'realme c67','realme c55','realme c51',
-        'rmx3491','rmx3501','rmx3710','rmx3085','rmx3063',
-        // Infinix mid
-        'infinix gt 20','infinix gt 10','infinix note 30','infinix hot 40 pro','infinix zero',
-        // Vivo mid
-        'vivo y78','vivo y76','vivo y56','vivo v25',
-        // OPPO mid
-        'oppo a78','oppo a77','oppo a57',
-        // Xiaomi mid
-        'redmi a3 pro','xiaomi redmi a3',
-      ]},
-      // ── BAIXO (entry-level) ────────────────────────────────────────────────
-      { tier: 'baixo', keys: [
-        // Redmi entry
-        'redmi 13c','redmi 12c','redmi 10c','redmi 10a','redmi 9a','redmi 9c','redmi a1','redmi a2',
-        // Samsung entry
-        'galaxy a03s','galaxy a03','galaxy a04s','galaxy a04','galaxy a05s','galaxy a05',
-        'galaxy a12','galaxy a13','galaxy a14 4g',
-        'sm-a035','sm-a042','sm-a047','sm-a125','sm-a135','sm-a145',
-        // Moto entry
-        'moto e40','moto e32','moto e22','moto e20','moto e13','moto e30',
-        // Realme entry
-        'realme c30','realme c31','realme c33','realme c35','realme c25','realme c21',
-        'rmx3261','rmx3511','rmx3241','rmx3151',
-        // Infinix entry
-        'infinix hot 30','infinix hot 20','infinix hot 12','infinix hot 10',
-        'infinix smart 7','infinix smart 6',
-        // Tecno entry
-        'tecno pop 7','tecno pop 6','tecno pop 5',
-        'tecno spark 20','tecno spark 10','tecno spark 9',
-        // itel
-        'itel a70','itel a60','itel p40','itel s23','itel a58','itel a56',
-        // POCO entry
-        'poco c40','poco c31',
-        // Vivo entry
-        'vivo y16','vivo y15s','vivo y02',
-        // OPPO entry
-        'oppo a17','oppo a16','oppo a15',
-      ]}
+async function detectPhoneFull() {
+  let name = '';
+  const ram=navigator.deviceMemory||0, cores=navigator.hardwareConcurrency||0;
+  const sw=screen.width, sh=screen.height, ua=navigator.userAgent||'';
+  if (navigator.userAgentData?.getHighEntropyValues) {
+    try {
+      const h = await navigator.userAgentData.getHighEntropyValues(['model','platform','platformVersion']);
+      if (h.model?.trim()) name = h.model.trim();
+    } catch {}
+  }
+  const patterns = [
+    [/\b(SM-[A-Z][0-9]{3}[A-Z0-9]{0,3})\b/i, m => SM_MAP[m[1].toUpperCase()]||(m[1].toUpperCase())],
+    [/\b(Redmi\s+(?:Note\s+)?\d+(?:\s+(?:Pro\+?|Ultra|Turbo|5G|4G))*)\b/i, m => m[1]],
+    [/\b(POCO\s+[A-Z]\d+(?:\s+(?:Pro\+?|Ultra|5G|GT))*)\b/i, m => m[1]],
+    [/\b(moto\s+[a-z]\s*\d+(?:\s+(?:5g|plus|power|play|stylus))?)\b/i, m => m[1]],
+    [/\b(RMX\d{4})\b/i, m => RMX_MAP[m[1].toUpperCase()]||(m[1])],
+    [/\b(Realme\s+(?:C\d+|Narzo\s+\d+|GT\s+\S+|\d+(?:\s+Pro)?))\b/i, m => m[1]],
+    [/\b(Infinix\s+(?:Hot|Note|GT|Zero|Smart)\s+\d+(?:\s+Pro)?)\b/i, m => m[1]],
+    [/\b(Tecno\s+(?:Pop|Spark|Camon)\s+\d+[A-Z]*)\b/i, m => m[1]],
+  ];
+  if (!name) for (const [re, fn] of patterns) {
+    const m = ua.match(re);
+    if (m) { name = fn(m).replace(/\s+/g,' ').trim(); break; }
+  }
+  if (!name) {
+    const brands = [
+      [/\bsamsung\b/i,'Samsung'],[/\bxiaomi\b/i,'Xiaomi'],[/\bredmi\b/i,'Redmi'],
+      [/\bpoco\b/i,'POCO'],[/\bmotorola\b|\bmoto[\s_]/i,'Motorola'],[/\brealme\b/i,'Realme'],
+      [/\boppo\b/i,'OPPO'],[/\bvivo\b/i,'Vivo'],[/\btecno\b/i,'Tecno'],
+      [/\binfinix\b/i,'Infinix'],[/\boneplus\b/i,'OnePlus'],[/\bhuawei\b/i,'Huawei'],
     ];
-
-    function matchDeviceDB(name) {
-      const n = (name || '').toLowerCase().trim();
-      if (!n) return null;
-      for (const entry of DEVICE_DB) {
-        if (entry.keys.some(k => n.includes(k))) {
-          if (entry.tier === 'alto')  return { tier: 'alto',  base: 1.10, label: 'Celular forte detectado',         color: 'green' };
-          if (entry.tier === 'médio') return { tier: 'médio', base: 1.00, label: 'Celular intermediário detectado', color: 'gold'  };
-                                      return { tier: 'baixo', base: 0.94, label: 'Celular de entrada detectado',    color: 'cyan'  };
-        }
-      }
-      return null;
-    }
-
-    // Estimate tier purely from hardware signals (RAM, cores, screen)
-    function profileFromHardware(ram, cores, screenW, screenH) {
-      const px = Math.max(screenW || 0, screenH || 0);
-      let score = 0;
-      if (ram >= 8)      score += 3;
-      else if (ram >= 4) score += 2;
-      else if (ram >= 3) score += 1;
-      else if (ram > 0)  score += 0;
-
-      if (cores >= 8)      score += 2;
-      else if (cores >= 6) score += 1;
-
-      if (px >= 2400)       score += 2;
-      else if (px >= 1920)  score += 1;
-      else if (px < 1280)   score -= 1;
-
-      if (score >= 5) return { tier: 'alto',  base: 1.10, label: 'Hardware avançado detectado',         color: 'green' };
-      if (score >= 2) return { tier: 'médio', base: 1.00, label: 'Hardware intermediário detectado',    color: 'gold'  };
-                      return { tier: 'baixo', base: 0.94, label: 'Hardware de entrada detectado',       color: 'cyan'  };
-    }
-
-    function profileFromDevice(name, hw) {
-      // 1. Try device name database (most accurate)
-      const dbResult = matchDeviceDB(name);
-      if (dbResult) return dbResult;
-
-      // 2. Try hardware hints
-      const h = hw || hwHints;
-      if (h && (h.ram > 0 || h.cores > 0)) {
-        return profileFromHardware(h.ram, h.cores, h.screenW, h.screenH);
-      }
-
-      // 3. Generic fallback
-      return { tier: 'médio', base: 0.98, label: 'Perfil genérico aplicado', color: 'gold' };
-    }
-
-    // Realme model code → name map
-    const RMX_MAP = {
-      'RMX3491':'Realme 9 Pro',  'RMX3501':'Realme 9',     'RMX3261':'Realme C35',
-      'RMX3085':'Realme 8 Pro',  'RMX3063':'Realme 8',     'RMX3311':'Realme Narzo 50',
-      'RMX3710':'Realme 11',     'RMX3700':'Realme 11 Pro','RMX3764':'Realme C67',
-      'RMX3151':'Realme C21',    'RMX3241':'Realme C31',   'RMX3511':'Realme C33',
-      'RMX3630':'Realme C55',    'RMX3834':'Realme C53',   'RMX3031':'Realme 8i',
-      'RMX3461':'Realme 10',     'RMX3760':'Realme 11x 5G',
-    };
-
-    // Samsung SM- model code → name map (common ones)
-    const SM_MAP = {
-      'SM-A546':'Samsung Galaxy A54 5G', 'SM-A556':'Samsung Galaxy A55 5G',
-      'SM-A346':'Samsung Galaxy A34',    'SM-A336':'Samsung Galaxy A33 5G',
-      'SM-A325':'Samsung Galaxy A32',    'SM-A256':'Samsung Galaxy A25 5G',
-      'SM-A246':'Samsung Galaxy A24',    'SM-A235':'Samsung Galaxy A23',
-      'SM-A156':'Samsung Galaxy A15 5G', 'SM-A145':'Samsung Galaxy A14 5G',
-      'SM-A135':'Samsung Galaxy A13',    'SM-A125':'Samsung Galaxy A12',
-      'SM-A055':'Samsung Galaxy A05s',   'SM-A047':'Samsung Galaxy A04s',
-      'SM-A035':'Samsung Galaxy A03s',   'SM-M346':'Samsung Galaxy M34 5G',
-      'SM-S921':'Samsung Galaxy S24',    'SM-S926':'Samsung Galaxy S24+',
-      'SM-S928':'Samsung Galaxy S24 Ultra',
-    };
-
-    // Main async detection function
-    async function detectPhoneFull() {
-      let modelName = '';
-      const ram    = navigator.deviceMemory || 0;
-      const cores  = navigator.hardwareConcurrency || 0;
-      const screenW = screen.width;
-      const screenH = screen.height;
-      const ua = navigator.userAgent || '';
-
-      // ── Strategy 1: UA Client Hints (Chrome 90+ Android) ──────────────────
-      if (navigator.userAgentData && typeof navigator.userAgentData.getHighEntropyValues === 'function') {
-        try {
-          const hints = await navigator.userAgentData.getHighEntropyValues(['model', 'platform', 'platformVersion']);
-          if (hints.model && hints.model.trim().length > 0) {
-            modelName = hints.model.trim();
-          }
-        } catch (e) { /* API denied or not supported */ }
-      }
-
-      // ── Strategy 2: UA string regex parsing ───────────────────────────────
-      if (!modelName) {
-        // Samsung SM-XXXX
-        const smMatch = ua.match(/\b(SM-[A-Z][0-9]{3}[A-Z0-9]{0,3})\b/i);
-        if (smMatch) {
-          const code = smMatch[1].toUpperCase();
-          modelName = SM_MAP[code] || ('Samsung ' + code);
-        }
-      }
-
-      if (!modelName) {
-        // Redmi Note XX Pro / Redmi XX
-        const rdMatch = ua.match(/\b(Redmi\s+(?:Note\s+)?\d+(?:\s+(?:Pro\+?|Ultra|Turbo|5G|4G))*)\b/i);
-        if (rdMatch) modelName = rdMatch[1].replace(/\s+/g, ' ').trim();
-      }
-
-      if (!modelName) {
-        // POCO X / F / M / C series
-        const pocoMatch = ua.match(/\b(POCO\s+[A-Z]\d+(?:\s+(?:Pro\+?|Ultra|5G|GT))*)\b/i);
-        if (pocoMatch) modelName = pocoMatch[1].replace(/\s+/g, ' ').trim();
-      }
-
-      if (!modelName) {
-        // Motorola: moto g/e + number
-        const motoMatch = ua.match(/\b(moto\s+[a-z]\s*\d+(?:\s+(?:5g|plus|power|play|stylus))?)\b/i);
-        if (motoMatch) modelName = motoMatch[1].replace(/\s+/g, ' ').trim();
-      }
-
-      if (!modelName) {
-        // Realme RMX code → friendly name
-        const rmxMatch = ua.match(/\b(RMX\d{4})\b/i);
-        if (rmxMatch) {
-          const code = rmxMatch[1].toUpperCase();
-          modelName = RMX_MAP[code] || ('Realme ' + code);
-        }
-      }
-
-      if (!modelName) {
-        // Realme C/Narzo/GT series
-        const reMatch = ua.match(/\b(Realme\s+(?:C\d+|Narzo\s+\d+|GT\s+\S+|(?:\d+(?:\s+Pro)?)))\b/i);
-        if (reMatch) modelName = reMatch[1].replace(/\s+/g, ' ').trim();
-      }
-
-      if (!modelName) {
-        // Infinix Hot / Note / GT / Zero / Smart
-        const infMatch = ua.match(/\b(Infinix\s+(?:Hot|Note|GT|Zero|Smart)\s+\d+(?:\s+Pro)?)\b/i);
-        if (infMatch) modelName = infMatch[1].replace(/\s+/g, ' ').trim();
-      }
-
-      if (!modelName) {
-        // Tecno Pop / Spark / Camon
-        const tecMatch = ua.match(/\b(Tecno\s+(?:Pop|Spark|Camon)\s+\d+(?:[A-Z]*)?)\b/i);
-        if (tecMatch) modelName = tecMatch[1].replace(/\s+/g, ' ').trim();
-      }
-
-      if (!modelName) {
-        // itel A / P / S
-        const itelMatch = ua.match(/\b(itel\s+[APS]\d+(?:[A-Z]*)?)\b/i);
-        if (itelMatch) modelName = itelMatch[1].replace(/\s+/g, ' ').trim();
-      }
-
-      if (!modelName) {
-        // Xiaomi named models
-        const xiMatch = ua.match(/\b(Xiaomi\s+\d+(?:\s+Pro)?(?:\s+Ultra)?)\b/i);
-        if (xiMatch) modelName = xiMatch[1].replace(/\s+/g, ' ').trim();
-      }
-
-      if (!modelName) {
-        // OnePlus
-        const opMatch = ua.match(/\b(OnePlus\s+\d+(?:\s+Pro(?:\+)?|T)?)\b/i);
-        if (opMatch) modelName = opMatch[1].replace(/\s+/g, ' ').trim();
-      }
-
-      // ── Strategy 3: Generic brand fallback ────────────────────────────────
-      if (!modelName) {
-        const brands = [
-          [/\bsamsung\b/i,               'Samsung Galaxy'],
-          [/\bxiaomi\b/i,                'Xiaomi'],
-          [/\bredmi\b/i,                 'Redmi'],
-          [/\bpoco\b/i,                  'POCO'],
-          [/\bmotorola\b|\bmoto[\s_]/i,  'Motorola'],
-          [/\brealme\b/i,                'Realme'],
-          [/\boppo\b/i,                  'OPPO'],
-          [/\bvivo\b/i,                  'Vivo'],
-          [/\btecno\b/i,                 'Tecno'],
-          [/\bitel\b/i,                  'itel'],
-          [/\binfinix\b/i,               'Infinix'],
-          [/\boneplus\b/i,               'OnePlus'],
-          [/\bhuawei\b/i,                'Huawei'],
-          [/\blenovo\b/i,                'Lenovo'],
-          [/\basus\b/i,                  'Asus'],
-          [/\bnokia\b/i,                 'Nokia'],
-          [/\bLG\b/,                     'LG'],
-        ];
-        for (const [pattern, name] of brands) {
-          if (pattern.test(ua)) { modelName = name; break; }
-        }
-      }
-
-      return { name: modelName, ram, cores, screenW, screenH };
-    }
-
-    /* ── detectAndPrefill (async) ────────────────────────────────────────── */
-    async function detectAndPrefill() {
-      el('detectedPhone').classList.add('detecting');
-      el('detectedPhone').textContent = 'Celular: detectando...';
-
-      const info = await detectPhoneFull();
-
-      // Update global hardware hints
-      hwHints = { ram: info.ram, cores: info.cores, screenW: info.screenW, screenH: info.screenH };
-
-      const guessed = info.name;
-      if (guessed && !device.value) device.value = guessed;
-
-      const displayName = device.value || guessed || 'não detectado';
-      el('detectedPhone').classList.remove('detecting');
-      el('detectedPhone').textContent = `Celular: ${displayName}`;
-      el('currentPhonePill').textContent = `Celular: ${device.value || guessed || 'não definido'}`;
-
-      // Show hardware info in overlay pill
-      const hwParts = [];
-      if (info.ram)   hwParts.push(`${info.ram} GB RAM`);
-      if (info.cores) hwParts.push(`${info.cores} núcleos`);
-      const px = Math.max(info.screenW, info.screenH);
-      if (px > 0)     hwParts.push(`${info.screenW}×${info.screenH}`);
-      el('detectedHw').textContent = hwParts.length
-        ? hwParts.join(' · ')
-        : 'Hardware: não detectado';
-    }
-
-    /* ── UI sync helpers ─────────────────────────────────────────────────── */
-    function setStyle(next) {
-      state.style = next;
-      document.querySelectorAll('[data-style]').forEach(x => x.classList.toggle('active', x.dataset.style === next));
-      render();
-    }
-
-    function setAuto(next) {
-      state.auto = next;
-      document.querySelectorAll('[data-auto]').forEach(x => x.classList.toggle('active', x.dataset.auto === (next ? 'on' : 'off')));
-      modeBadge.textContent = next ? 'Automático sem DPI' : 'Manual assistido';
-      autoState.textContent = next ? 'Auto sem DPI' : 'Manual';
-      statusPill.textContent = next ? 'IA ativa' : 'IA parcial';
-      render();
-    }
-
-    function setFeature(key, value) {
-      state.features[key] = value;
-      render();
-    }
-
-    function syncFeatureControls() {
-      document.querySelectorAll('[data-switch]').forEach(sw => {
-        const key = sw.dataset.switch;
-        sw.classList.toggle('on', !!state.features[key]);
-      });
-      document.querySelectorAll('[data-feature]').forEach(feat => {
-        const key = feat.dataset.feature;
-        feat.classList.toggle('disabled', !state.features[key]);
-      });
-    }
-
-    /* ── Learning ────────────────────────────────────────────────────────── */
-    function getLearningBias(profile, style) {
-      const g = learning.global;
-      const s = learning.byStyle[style] || defaultLearning.byStyle[style];
-      const t = learning.byTier[profile.tier] || defaultLearning.byTier[profile.tier];
-      return {
-        dpi:    g.dpi    + s.dpi    + t.dpi,
-        button: g.button + s.button + t.button,
-        touch:  g.touch  + s.touch  + t.touch,
-        sens:   g.sens   + s.sens   + t.sens
-      };
-    }
-
-    function nudgeLearning(profile, style, target, current) {
-      const diffDpi    = (current.dpi    - target.dpiTarget)    / 10;
-      const diffButton =  current.button - target.buttonTarget;
-      const diffTouch  =  current.touch  - target.touchTarget;
-      const clampBias  = (v) => clamp(v, -12, 12);
-      const g = learning.global;
-      const s = learning.byStyle[style] || learning.byStyle.capa;
-      const t = learning.byTier[profile.tier] || learning.byTier['médio'];
-      const lr = 0.18;
-      g.dpi    = clampBias(g.dpi    + diffDpi    * lr * 0.50);
-      g.button = clampBias(g.button + diffButton * lr * 0.45);
-      g.touch  = clampBias(g.touch  + diffTouch  * lr * 0.45);
-      g.sens   = clampBias(g.sens   + ((Math.abs(diffButton) + Math.abs(diffTouch)) / 2) * lr * 0.15);
-      s.dpi    = clampBias(s.dpi    + diffDpi    * lr * 0.35);
-      s.button = clampBias(s.button + diffButton * lr * 0.50);
-      s.touch  = clampBias(s.touch  + diffTouch  * lr * 0.50);
-      s.sens   = clampBias(s.sens   + ((Math.abs(diffButton) + Math.abs(diffTouch)) / 2) * lr * 0.20);
-      t.dpi    = clampBias(t.dpi    + diffDpi    * lr * 0.30);
-      t.button = clampBias(t.button + diffButton * lr * 0.35);
-      t.touch  = clampBias(t.touch  + diffTouch  * lr * 0.35);
-      t.sens   = clampBias(t.sens   + ((Math.abs(diffButton) + Math.abs(diffTouch)) / 2) * lr * 0.12);
-      learning.samples = Math.min(9999, learning.samples + 1);
-      saveLearning();
-    }
-
-    /* ── computeRawTargets ───────────────────────────────────────────────── */
-    function computeRawTargets(profile, style) {
-      const styleFactor    = style === 'capa' ? 1.10 : style === 'equilibrado' ? 1.0 : 0.92;
-      const styleDpiBias   = style === 'capa' ? 18   : style === 'equilibrado' ? 6   : -8;
-      const styleButtonBias= style === 'capa' ? -4   : style === 'equilibrado' ? 0   : 7;
-      const styleTouchBias = style === 'capa' ? -6   : style === 'equilibrado' ? 0   : 8;
-      const tierBiasDpi    = profile.tier === 'alto' ? 18 : profile.tier === 'médio' ? 0 : -14;
-      const tierBiasButton = profile.tier === 'alto' ? -1 : profile.tier === 'médio' ? 0 :   3;
-      const tierBiasTouch  = profile.tier === 'alto' ? -2 : profile.tier === 'médio' ? 0 :   4;
-      return {
-        dpiTarget:    clamp(240 * styleFactor + styleDpiBias + tierBiasDpi, 140, 540),
-        buttonTarget: clamp(50  + styleButtonBias + tierBiasButton, 22, 72),
-        touchTarget:  clamp(50  + styleTouchBias  + tierBiasTouch,  10, 90),
-        styleFactor
-      };
-    }
-
-    /* ── smartTune ───────────────────────────────────────────────────────── */
-    function smartTune() {
-      const profile = profileFromDevice(device.value);
-      const raw     = computeRawTargets(profile, state.style);
-      const bias    = getLearningBias(profile, state.style);
-
-      const basePresets = {
-        capa:        { geral: 180, red: 170, two: 155, four: 140, awm: 125 },
-        equilibrado: { geral: 170, red: 160, two: 145, four: 130, awm: 115 },
-        controle:    { geral: 150, red: 140, two: 130, four: 120, awm: 105 }
-      };
-
-      const preset         = basePresets[state.style];
-      const devicePower    = profile.tier === 'alto' ? 1.1 : profile.tier === 'médio' ? 1.0 : 0.9;
-      const touchInfluence = (Number(touch.value)  - 50) / 100;
-      const buttonInfluence= (Number(button.value) - 50) / 100;
-
-      const geral = clamp(preset.geral * devicePower - (buttonInfluence * 20) - (touchInfluence * 10) + bias.sens, 120, 200);
-      const red   = clamp(preset.red   * devicePower - (buttonInfluence * 18) - (touchInfluence *  8) + bias.sens, 110, 200);
-      const two   = clamp(preset.two   * devicePower - (buttonInfluence * 15) - (touchInfluence *  7) + bias.sens, 100, 200);
-      const four  = clamp(preset.four  * devicePower - (buttonInfluence * 12) - (touchInfluence *  6) + bias.sens,  90, 190);
-      const awm   = clamp(preset.awm   * devicePower - (buttonInfluence * 10) - (touchInfluence *  5) + bias.sens,  80, 180);
-
-      const dpiTarget    = raw.dpiTarget    + bias.dpi;
-      const buttonTarget = raw.buttonTarget + bias.button;
-      const touchTarget  = raw.touchTarget  + bias.touch;
-
-      if (state.auto && state.features.dpi)    dpi.value    = round(dpiTarget);
-      if (state.auto && state.features.button) button.value = round(buttonTarget);
-      if (state.auto && state.features.touch)  touch.value  = round(touchTarget);
-
-      return {
-        profile,
-        raw,
-        dpiTarget,
-        buttonTarget,
-        touchTarget,
-        sens: {
-          geral: Math.round(geral),
-          red:   Math.round(red),
-          two:   Math.round(two),
-          four:  Math.round(four),
-          awm:   Math.round(awm)
-        }
-      };
-    }
-
-    /* ── buildConfig ─────────────────────────────────────────────────────── */
-    function buildConfig() {
-      const smart   = smartTune();
-      const s       = smart.sens;
-      const profile = smart.profile;
-
-      const b = Number(button.value);
-      const t = Number(touch.value);
-
-      const free = clamp(
-        (state.style === 'capa' ? 20 : state.style === 'controle' ? 14 : 17) +
-        (profile.tier === 'alto' ? 1 : profile.tier === 'baixo' ? -1 : 0),
-        10, 30
-      );
-
-      const score = clamp(
-        68 +
-        (state.style === 'capa' ? 14 : state.style === 'equilibrado' ? 10 : 6) +
-        (state.auto ? 11 : 4) +
-        (profile.tier === 'alto' ? 5 : profile.tier === 'baixo' ? 0 : 2) +
-        (b >= 45 && b <= 58 ? 3 : 0) +
-        (t >= 35 && t <= 62 ? 4 : 0),
-        0, 100
-      );
-
-      return {
-        profile,
-        score,
-        geral: s.geral,
-        red:   s.red,
-        two:   s.two,
-        four:  s.four,
-        awm:   s.awm,
-        free,
-        explanation: `${profile.label}. A IA está priorizando ${
-          state.style === 'capa' ? 'capa rápida' :
-          state.style === 'equilibrado' ? 'equilíbrio estável' : 'controle fino'
-        } ${state.auto ? 'com ajuste automático total' : 'com assistência manual'}.`
-      };
-    }
-
-    /* ── autoLearnIfNeeded ───────────────────────────────────────────────── */
-    function autoLearnIfNeeded() {
-      if (state.auto) return;
-      const profile = profileFromDevice(device.value);
-      const target  = computeRawTargets(profile, state.style);
-      nudgeLearning(profile, state.style, target, {
-        dpi:    Number(dpi.value),
-        button: Number(button.value),
-        touch:  Number(touch.value)
-      });
-    }
-
-    /* ── render ──────────────────────────────────────────────────────────── */
-    function render() {
-      const smart   = smartTune();
-      const cfg     = buildConfig();
-      const profile = smart.profile;
-
-      dpiVal.textContent    = dpi.value;
-      buttonVal.textContent = `${button.value}%`;
-      touchVal.textContent  = touch.value;
-      targetDpi.textContent    = state.features.dpi    ? smart.dpiTarget                 : '—';
-      targetButton.textContent = state.features.button ? `${smart.buttonTarget}%`        : '—';
-      targetTouch.textContent  = state.features.touch  ? smart.touchTarget               : '—';
-      profileTag.textContent   = profile.label;
-      profileTag.className     = `pill ${profile.color}`;
-      modeBadge.textContent    = state.auto ? 'Automático sem DPI' : 'Manual assistido';
-      autoState.textContent    = state.auto ? 'Auto sem DPI' : 'Manual';
-      statusPill.textContent   = state.auto ? 'IA ativa' : 'IA parcial';
-      syncFeatureControls();
-
-      scoreNum.textContent  = cfg.score;
-      scoreText.textContent = cfg.explanation;
-
-      const stabilityBase = 100
-        - Math.abs(Number(button.value) - smart.buttonTarget) * 2
-        - Math.abs(Number(touch.value)  - smart.touchTarget)  * 1.3;
-      const stability = clamp(stabilityBase, 30, 100);
-      progressBar.style.width   = `${stability}%`;
-      stabilityTag.textContent  = stability >= 80 ? 'Alta' : stability >= 60 ? 'Média' : 'Baixa';
-      stabilityText.textContent = stability >= 80
-        ? 'A IA está entregando um ajuste muito estável, com excelente equilíbrio entre puxada e controle.'
-        : stability >= 60
-        ? 'A configuração está boa, mas ainda dá para aproximar mais do alvo da IA.'
-        : 'A configuração está distante do ideal; a IA recomenda usar o botão de procurar sensibilidade.';
-
-      el('outGeneral').textContent = state.features.sens ? cfg.geral : '—';
-      el('outRed').textContent     = state.features.sens ? cfg.red   : '—';
-      el('out2x').textContent      = state.features.sens ? cfg.two   : '—';
-      el('out4x').textContent      = state.features.sens ? cfg.four  : '—';
-      el('outAwm').textContent     = state.features.sens ? cfg.awm   : '—';
-      el('outFree').textContent    = state.features.free ? cfg.free  : '—';
-
-      chips.innerHTML = '';
-      const tags = [
-        profile.label,
-        state.style === 'capa' ? 'Foco em capa' : state.style === 'equilibrado' ? 'Perfil balanceado' : 'Perfil de controle',
-        state.auto ? 'IA total ligada' : 'IA parcial ligada',
-        state.features.dpi    ? 'DPI automático'         : 'DPI travado',
-        state.features.button ? 'Botão automático'       : 'Botão travado',
-        state.features.touch  ? 'Toque automático'       : 'Toque travado',
-        state.features.sens   ? 'Sensis automáticas'     : 'Sensis travadas',
-        state.features.free   ? 'Mira livre automática'  : 'Mira livre travada',
-        `Estabilidade ${Math.round(stability)}%`,
-        `Aprendizados ${learning.samples}`
-      ];
-      tags.forEach(text => {
-        const c = document.createElement('div');
-        c.className = 'chip';
-        c.textContent = text;
-        chips.appendChild(c);
-      });
-
-      output.textContent = [
-        `Dispositivo: ${device.value || 'Não informado'}`,
-        `Modo IA: ${state.auto ? 'Automático sem DPI' : 'Manual assistido'}`,
-        `Estilo: ${state.style}`,
-        `DPI: ${state.features.dpi ? dpi.value : 'travado'}`,
-        `Botão: ${state.features.button ? button.value + '%' : 'travado'}`,
-        `Toque: ${state.features.touch ? touch.value : 'travado'}`,
-        '',
-        `Geral: ${state.features.sens ? cfg.geral : 'travado'}`,
-        `Ponto vermelho: ${state.features.sens ? cfg.red  : 'travado'}`,
-        `Mira 2x: ${state.features.sens ? cfg.two  : 'travado'}`,
-        `Mira 4x: ${state.features.sens ? cfg.four : 'travado'}`,
-        `AWM: ${state.features.sens ? cfg.awm  : 'travado'}`,
-        `Mira livre: ${state.features.free ? cfg.free : 'travado'}`,
-        '',
-        `Sugestão IA: ${state.features.dpi ? `DPI ${smart.dpiTarget}` : 'DPI desligado'}, ${state.features.button ? `botão ${smart.buttonTarget}%` : 'botão travado'}, ${state.features.touch ? `toque ${smart.touchTarget}` : 'toque travado'}`,
-        `Estabilidade estimada: ${Math.round(stability)}%`
-      ].join('\n');
-
-      if (state.features.save) {
-        try {
-          localStorage.setItem('ff-sens-ai-ultra', JSON.stringify({
-            device: device.value, dpi: dpi.value, button: button.value,
-            touch: touch.value, style: state.style, auto: state.auto, features: state.features
-          }));
-        } catch {}
-      }
-    }
-
-    /* ── openMain ────────────────────────────────────────────────────────── */
-    function openMain() {
-      overlay.classList.add('hidden');
-      mainArea.classList.remove('hidden');
-      render();
-    }
-
-    /* ── Event Listeners ─────────────────────────────────────────────────── */
-    document.querySelectorAll('[data-style]').forEach(elm =>
-      elm.addEventListener('click', () => setStyle(elm.dataset.style)));
-
-    document.querySelectorAll('[data-auto]').forEach(elm =>
-      elm.addEventListener('click', () => setAuto(elm.dataset.auto === 'on')));
-
-    document.querySelectorAll('[data-switch]').forEach(sw =>
-      sw.addEventListener('click', () => setFeature(sw.dataset.switch, !state.features[sw.dataset.switch])));
-
-    ['input', 'change'].forEach(evt => {
-      device.addEventListener(evt, () => {
-        el('currentPhonePill').textContent = `Celular: ${device.value || 'não definido'}`;
-        render();
-      });
-      dpi.addEventListener(evt,    () => { render(); autoLearnIfNeeded(); });
-      button.addEventListener(evt, () => { render(); autoLearnIfNeeded(); });
-      touch.addEventListener(evt,  () => { render(); autoLearnIfNeeded(); });
-    });
-
-    el('openAiBtn').addEventListener('click', openMain);
-
-    el('useGuessBtn').addEventListener('click', () => {
-      detectAndPrefill().then(() => { openMain(); toastMsg('Detecção aplicada'); });
-    });
-
-    el('openPanelBtn').addEventListener('click', () => {
-      overlay.classList.add('hidden');
-      mainArea.classList.remove('hidden');
-      toastMsg('Painel aberto');
-    });
-
-    el('searchBtn').addEventListener('click', () => {
-      openMain();
-      setAuto(true);
-      if (!device.value) detectAndPrefill().then(() => { smartTune(); render(); });
-      else { smartTune(); render(); }
-      toastMsg('IA procurando sensibilidade');
-    });
-
-    el('applyBtn').addEventListener('click', () => { smartTune(); render(); toastMsg('IA aplicada com sucesso'); });
-
-    el('preset1').addEventListener('click', () => {
-      setStyle('capa'); setAuto(true);
-      state.features = { dpi: false, button: true, touch: true, sens: true, free: true, save: true };
-      if (!device.value) device.value = 'Redmi 13C 5G';
-      render(); toastMsg('Preset capa ativado');
-    });
-    el('preset2').addEventListener('click', () => {
-      setStyle('equilibrado'); setAuto(true);
-      state.features = { dpi: false, button: true, touch: true, sens: true, free: true, save: true };
-      if (!device.value) device.value = 'Redmi Note 13';
-      render(); toastMsg('Preset equilíbrio ativado');
-    });
-    el('preset3').addEventListener('click', () => {
-      setStyle('controle'); setAuto(true);
-      state.features = { dpi: false, button: true, touch: true, sens: true, free: true, save: true };
-      if (!device.value) device.value = 'Moto G';
-      render(); toastMsg('Preset controle ativado');
-    });
-
-    el('copyBtn').addEventListener('click', async () => {
-      const smart = smartTune();
-      const cfg   = buildConfig();
-      const text  = [
-        `Dispositivo: ${device.value || 'Não informado'}`,
-        `Modo IA: ${state.auto ? 'Automático sem DPI' : 'Manual assistido'}`,
-        `Estilo: ${state.style}`,
-        `DPI: ${state.features.dpi ? dpi.value : 'travado'}`,
-        `Botão: ${state.features.button ? button.value + '%' : 'travado'}`,
-        `Toque: ${state.features.touch ? touch.value : 'travado'}`,
-        `Sensis automáticas: ${state.features.sens ? 'sim' : 'não'}`,
-        `Mira livre automática: ${state.features.free ? 'sim' : 'não'}`,
-        `Sugestão IA: ${state.features.dpi ? `DPI ${smart.dpiTarget}` : 'DPI desligado'}, ${state.features.button ? `botão ${smart.buttonTarget}%` : 'botão travado'}, ${state.features.touch ? `toque ${smart.touchTarget}` : 'toque travado'}`,
-        `Geral: ${state.features.sens ? cfg.geral : 'travado'}`,
-        `Ponto vermelho: ${state.features.sens ? cfg.red  : 'travado'}`,
-        `2x: ${state.features.sens ? cfg.two  : 'travado'}`,
-        `4x: ${state.features.sens ? cfg.four : 'travado'}`,
-        `AWM: ${state.features.sens ? cfg.awm  : 'travado'}`,
-        `Mira livre: ${state.features.free ? cfg.free : 'travado'}`
-      ].join('\n');
-      try {
-        await navigator.clipboard.writeText(text);
-        el('copyBtn').textContent = 'Copiado!';
-        toastMsg('Config copiada');
-        setTimeout(() => el('copyBtn').textContent = 'Copiar config', 1200);
-      } catch {
-        toastMsg('Não foi possível copiar automaticamente');
-      }
-    });
-
-    /* ── Restore saved state ─────────────────────────────────────────────── */
-    const saved = localStorage.getItem('ff-sens-ai-ultra');
+    for (const [re, n] of brands) if (re.test(ua)) { name=n; break; }
+  }
+  return { name, ram, cores, screenW:sw, screenH:sh };
+}
+
+async function detectAndPrefill() {
+  el('detectedPhone').classList.add('detecting');
+  const info = await detectPhoneFull();
+  hwHints = { ram:info.ram, cores:info.cores, screenW:info.screenW, screenH:info.screenH };
+  if (info.name && !device.value) device.value = info.name;
+  const disp = device.value || info.name || 'não detectado';
+  el('detectedPhone').classList.remove('detecting');
+  el('detectedPhone').textContent = `Celular: ${disp}`;
+  el('currentPhonePill').textContent = `Celular: ${device.value||disp||'não definido'}`;
+  const hw = [];
+  if (info.ram)   hw.push(`${info.ram}GB RAM`);
+  if (info.cores) hw.push(`${info.cores} núcleos`);
+  if (Math.max(info.screenW,info.screenH)>0) hw.push(`${info.screenW}×${info.screenH}`);
+  el('detectedHw').textContent = hw.length ? hw.join(' · ') : 'Hardware: não detectado';
+}
+
+/* ── UI sync ── */
+function setStyle(next) {
+  state.style = next;
+  document.querySelectorAll('[data-style]').forEach(x => x.classList.toggle('active', x.dataset.style===next));
+}
+function setAuto(next) {
+  state.auto = next;
+  document.querySelectorAll('[data-auto]').forEach(x => x.classList.toggle('active', x.dataset.auto===(next?'on':'off')));
+  modeBadge.textContent = next ? 'Auto sem DPI' : 'Manual assistido';
+  autoState.textContent = next ? 'Auto sem DPI' : 'Manual';
+  statusPill.textContent= next ? 'IA v2 ativa'  : 'IA parcial';
+}
+function setFeature(key, val) { state.features[key]=val; syncUI(); }
+function syncUI() {
+  document.querySelectorAll('[data-switch]').forEach(sw => {
+    sw.classList.toggle('on', !!state.features[sw.dataset.switch]);
+  });
+  document.querySelectorAll('[data-feature]').forEach(f => {
+    f.classList.toggle('disabled', !state.features[f.dataset.feature]);
+  });
+}
+
+function toastMsg(msg) {
+  toast.textContent=msg; toast.classList.add('show');
+  clearTimeout(window._tt);
+  window._tt = setTimeout(()=>toast.classList.remove('show'), 1800);
+}
+
+function openMain() {
+  overlay.classList.add('hidden');
+  mainArea.classList.remove('hidden');
+  renderHistory();
+}
+
+/* ── Event Listeners ── */
+document.querySelectorAll('[data-style]').forEach(e => e.addEventListener('click',()=>setStyle(e.dataset.style)));
+document.querySelectorAll('[data-auto]').forEach(e => e.addEventListener('click',()=>setAuto(e.dataset.auto==='on')));
+document.querySelectorAll('[data-switch]').forEach(sw => sw.addEventListener('click',()=>setFeature(sw.dataset.switch,!state.features[sw.dataset.switch])));
+
+[dpi, btnSz, touch].forEach(inp => {
+  inp.addEventListener('input', () => {
+    dpiVal.textContent    = dpi.value;
+    buttonVal.textContent = `${btnSz.value}%`;
+    touchVal.textContent  = touch.value;
+  });
+});
+device.addEventListener('input', ()=>{ el('currentPhonePill').textContent=`Celular: ${device.value||'não definido'}`; });
+
+el('openAiBtn').addEventListener('click', openMain);
+el('useGuessBtn').addEventListener('click', ()=>{ detectAndPrefill().then(()=>{ openMain(); toastMsg('Detecção aplicada'); }); });
+el('openPanelBtn').addEventListener('click', ()=>{ openMain(); toastMsg('Painel aberto'); });
+
+el('searchBtn').addEventListener('click', ()=>{
+  openMain(); setAuto(true);
+  if (!device.value) detectAndPrefill().then(runAnimatedGeneration);
+  else runAnimatedGeneration();
+});
+
+el('applyBtn').addEventListener('click', ()=>{ runAnimatedGeneration(); });
+
+el('preset1').addEventListener('click', ()=>{
+  setStyle('capa'); setAuto(true);
+  state.features={ dpi:false, button:true, touch:true, sens:true, free:true, save:true };
+  if (!device.value) device.value='Redmi 13C 5G';
+  runAnimatedGeneration();
+  toastMsg('Preset capa ativado');
+});
+el('preset2').addEventListener('click', ()=>{
+  setStyle('equilibrado'); setAuto(true);
+  state.features={ dpi:false, button:true, touch:true, sens:true, free:true, save:true };
+  if (!device.value) device.value='Redmi Note 13';
+  runAnimatedGeneration();
+  toastMsg('Preset equilíbrio ativado');
+});
+el('preset3').addEventListener('click', ()=>{
+  setStyle('controle'); setAuto(true);
+  state.features={ dpi:false, button:true, touch:true, sens:true, free:true, save:true };
+  if (!device.value) device.value='Moto G54';
+  runAnimatedGeneration();
+  toastMsg('Preset controle ativado');
+});
+
+el('clearHistBtn').addEventListener('click', ()=>{
+  localStorage.removeItem(HIST_KEY);
+  learn = loadLearn();
+  renderHistory();
+  toastMsg('Histórico limpo');
+});
+
+el('copyBtn').addEventListener('click', async ()=>{
+  if (!state.lastConfig) { toastMsg('Gere uma sensibilidade primeiro!'); return; }
+  const cfg = state.lastConfig;
+  const stab = clamp(
+    100 - Math.abs(Number(btnSz.value)-cfg.btnTarget)*2 - Math.abs(Number(touch.value)-cfg.tchTarget)*1.3,
+    30, 100
+  );
+  const text = [
+    `━━ FREE FIRE SENS AI v2 ━━`,
+    `Dispositivo : ${cfg.device}`,
+    `Tier        : ${cfg.profile.tier}`,
+    `Estilo      : ${cfg.style}`,
+    ``,
+    `DPI         : ${state.features.dpi ? cfg.dpiTarget : 'travado'}`,
+    `Botão tiro  : ${state.features.button ? cfg.btnTarget+'%' : 'travado'}`,
+    `Toque       : ${state.features.touch ? cfg.tchTarget : 'travado'}`,
+    ``,
+    `Geral       : ${state.features.sens ? cfg.geral : 'travado'}`,
+    `Ponto verm. : ${state.features.sens ? cfg.red : 'travado'}`,
+    `Mira 2x     : ${state.features.sens ? cfg.two : 'travado'}`,
+    `Mira 4x     : ${state.features.sens ? cfg.four : 'travado'}`,
+    `AWM         : ${state.features.sens ? cfg.awm : 'travado'}`,
+    `Mira livre  : ${state.features.free ? cfg.free : 'travado'}`,
+    ``,
+    `Score       : ${cfg.score}/100`,
+    `Estabilidade: ${Math.round(stab)}%`,
+    `Seed        : #${(cfg.seed>>>0).toString(16).toUpperCase()}`,
+  ].join('\n');
+  try {
+    await navigator.clipboard.writeText(text);
+    el('copyBtn').textContent = '✓ Copiado!';
+    toastMsg('Config copiada!');
+    setTimeout(()=>el('copyBtn').textContent='📋 Copiar config', 1400);
+  } catch { toastMsg('Não foi possível copiar'); }
+});
+
+/* ── Restore saved state ── */
+(function() {
+  try {
+    const saved = localStorage.getItem('ff-sens-ai-v2-state');
     if (saved) {
-      try {
-        const data = JSON.parse(saved);
-        device.value = data.device || '';
-        dpi.value    = data.dpi    || 240;
-        button.value = data.button || 50;
-        touch.value  = data.touch  || 50;
-        setStyle(data.style || 'capa');
-        setAuto(data.auto !== false);
-        if (data.features) state.features = { ...state.features, ...data.features };
-      } catch { state.auto = true; }
+      const d = JSON.parse(saved);
+      device.value = d.device||'';
+      dpi.value    = d.dpi||240;
+      btnSz.value  = d.btn||50;
+      touch.value  = d.tch||50;
+      setStyle(d.style||'capa');
+      setAuto(d.auto!==false);
+      if (d.features) state.features={...state.features,...d.features};
     }
+  } catch {}
+  // Auto-save state periodically
+  setInterval(()=>{
+    try {
+      localStorage.setItem('ff-sens-ai-v2-state', JSON.stringify({
+        device:device.value, dpi:dpi.value, btn:btnSz.value, tch:touch.value,
+        style:state.style, auto:state.auto, features:state.features
+      }));
+    } catch {}
+  }, 2000);
+})();
 
-    /* ── Init ────────────────────────────────────────────────────────────── */
-    syncFeatureControls();
-    render();
-    // Async detection runs in background - re-renders overlay pills when done
-    detectAndPrefill().then(() => render());
-  </script>
+syncUI();
+renderHistory();
+dpiVal.textContent    = dpi.value;
+buttonVal.textContent = `${btnSz.value}%`;
+touchVal.textContent  = touch.value;
+detectAndPrefill().then(()=>{});
+</script>
 </body>
 </html>
